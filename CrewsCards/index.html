@@ -1,0 +1,330 @@
+<html>
+<head>
+    <style>
+        body {
+            background-color: rgba(30,30,30,1);
+        }
+
+        div {
+            font-family: fantasy;
+        }
+
+        div#output {
+            border: 10px solid black;
+            border-radius: 20px;
+            position: absolute;
+            width: 1280px;
+            height: 720px;
+        }
+
+        div#company {
+            /*border: 10px solid black;*/
+            border-top-left-radius: 20px;
+            border-bottom-right-radius: 5px;
+            width: 470px;
+            height: 125px;
+            right: 0px;
+            bottom: 0px;
+            position: absolute;
+            overflow: hidden;
+        }
+
+        img#company_logo {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Div layouts */
+        div.team_member, div.team_captain, div.player_name {
+            border: 8px solid gray;
+            border-radius: 20px;
+            position: absolute;
+        }
+
+        div.team_member {
+            width: 325px;
+            height: 325px;
+            text-align: center;
+        }
+
+        div.player_name {
+            width: 100%;
+            height: 60px;
+            margin-left: -8px;
+            bottom: -8px;
+            text-align: center;
+            border-top-left-radius: 0px;
+            border-top-right-radius: 0px;
+
+            color: white;
+            font-size: 50px;
+            -webkit-text-stroke-width: 2px;
+            -webkit-text-stroke-color: black;
+
+            background-color: rgba(30,30,30,1);
+        }
+
+        div.team_captain {
+            width: 450px;
+            height: 450px;
+            right: 10px;
+            top: 10px;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        div#team_1 {
+            left: 10px;
+            top: 10px;
+        }
+
+        div#team_2 {
+            left: 10px;
+            bottom: 10px;
+        }
+
+        div#team_3 {
+            left: 400px;
+            top: 10px;
+        }
+
+        div#team_4 {
+            left: 400px;
+            bottom: 10px;
+        }
+
+        div.data_entry {
+            width: 550px;
+            height: 98%;
+            position: absolute;
+            right: 0px;
+            padding-left: 5px;
+            border-left: 3px solid black;
+            background-color: gray;
+        }
+
+        button.data_entry {
+            position: absolute;
+            right: 10px;
+            bottom: 10px;
+        }
+
+        img.team_member {
+            height: 90%;
+            margin-top: 1%;
+            object-fit: cover;
+            z-index: 1;
+        }
+
+        img.captain_x {
+            height: 88.25%;
+            width: 110%;
+            z-index: 0;
+            position: absolute;
+            left: -6%;
+            top: -2.125%;
+            visibility: hidden;
+        }
+
+        img.player_x {
+            height: 82.25%;
+            width: 106%;
+            z-index: 0;
+            position: absolute;
+            left: -4%;
+            top: -2%;
+            visibility: hidden;
+        }
+    </style>
+
+    <script type="text/javascript" src="imageFill.js"></script>
+    <script type="text/javascript">
+        // company: [background, char_bg, border, captain_border, border1, ...]
+        // captain_border and on are optional to override border
+        var colors = {
+            "amazon": ["rgb(24,14,0)", "rgb(46,28,0)", "rgb(255,153,0)"],
+            "facebook": ["rgb(19,30,51)", "rgb(29,46,76)", "rgb(66,103,178)"],
+            "google": ["rgb(24,23,23)", "rgb(46,46,46)", "rgb(66,133,244)", "rgb(234,67,53)", "rgb(234,67,53)", "rgb(66,133,244)", "rgb(251,188,5)", "rgb(52,168,83)"],
+            "hulu": ["rgb(3,21,12)", "rgb(5,42,24)", "rgb(28,231,131)"],
+            "microsoft": ["rgb(0,11,19)", "rgb(0,22,39)", "rgb(0,120,231)"],
+            "monolith": ["rgb(7,7,7)", "rgb(14,14,14)", "rgb(78,78,78)"],
+            "nintendo": ["rgb(21,0,1)", "rgb(41,0,3)", "rgb(228,0,15)"],
+            "suckerpunch": ["rgb(21,20,18)", "rgb(40,39,37)", "rgb(223,217,203)"],
+            "pokemon": ["rgb(24,23,23)", "rgb(46,46,46)", "rgb(255,226,28)"]
+        };
+
+        function updateCompany(companyField) {
+            var color = colors[companyField.value];
+            var nameFields = document.getElementsByClassName("player_name");
+            var characters = document.getElementsByClassName("team_member");
+            var captain = document.getElementsByClassName("team_captain");
+            var background = document.getElementById("output");
+            var companyRegion = document.getElementById("company");
+            var companyLogo = document.getElementById("company_logo");
+
+            background.style.backgroundColor = color[0];
+            background.style.borderColor = color[2];
+            companyRegion.style.borderColor = color[2];
+            companyLogo.src = "logos/" + companyField.value + ".png";
+
+            captain[0].style.backgroundColor = color[1];
+            captain[0].style.borderColor = color.length > 3 ? color[3] : color[2];
+
+            for (idx in nameFields) {
+                var nameField = nameFields[idx];
+                if (nameField.tagName !== "DIV") continue;
+                nameField.style.backgroundColor = color[1];
+                var colorIdx = 2 + parseInt(nameField.dataset.idx);
+                nameField.style.borderColor = color.length > colorIdx ? color[colorIdx] : color[2];
+            }
+
+            for (idx in characters) {
+                var character = characters[idx];
+                if (character.tagName !== "DIV") continue;
+                character.style.backgroundColor = color[1];
+                var colorIdx = 2 + parseInt(character.dataset.idx);
+                character.style.borderColor = color.length > colorIdx ? color[colorIdx] : color[2];
+            }
+        }
+
+        function updateName(nameElementId, inputField) {
+            var nameElement = document.getElementById(nameElementId);
+            nameElement.innerHTML = inputField.value;
+        }
+
+        function updateCharacter(imgElementId, characterSelect, colorSelect) {
+            var imgElement = document.getElementById(imgElementId);
+            var characterName = characterSelect 
+                        ? characterSelect.value 
+                        : imgElement.dataset.charactername;
+            var characterColor = colorSelect
+                        ? colorSelect.value
+                        : imgElement.dataset.charactercolor;
+            imgElement.src = getImageUrl(characterName, characterColor);
+            imgElement.dataset.charactername = characterName;
+            imgElement.dataset.charactercolor = characterColor;
+        }
+
+        function toggleVisible(imageId) {
+            var image = document.getElementById(imageId);
+            if (image.style.visibility === "hidden" || image.style.visibility === "") {
+                image.style.visibility = "visible";
+            } else {
+                image.style.visibility = "hidden";
+            }
+        }
+
+        window.onload = function() {
+            var characterSelects = document.getElementsByClassName("character-select");
+            for (idx in characterSelects) {
+                var select = characterSelects[idx];
+                if (select.tagName !== "SELECT") continue;
+                fillCharacterList(select);
+            }
+
+            var colorSelects = document.getElementsByClassName("color-select");
+            for (idx in colorSelects) {
+                var select = colorSelects[idx];
+                if (select.tagName !== "SELECT") continue;
+                fillColorSelect(select);
+            }
+        };
+    </script>
+</head>
+
+<body>
+    <div>
+        <!--
+            Data Entry
+        -->
+        <div id="paste_area" class="data_entry">
+            <br/>
+            <div>
+                Team: <select onchange="updateCompany(this)">
+                        <option>--</option>
+                        <option value="amazon">Amazon</option>
+                        <option value="facebook">Facebook</option>
+                        <option value="google">Google</option>
+                        <option value="hulu">Hulu</option>
+                        <option value="microsoft">Microsoft</option>
+                        <option value="monolith">Monolith Productions</option>
+                        <option value="nintendo">Nintendo</option>
+                        <option value="suckerpunch">SuckerPunch Productions</option>
+                        <option value="pokemon">The Pokemon Company</option>
+                    </select>
+            </div>
+            <div>
+                <table>
+                    <tr>
+                        <td>Team Captain</td>
+                        <td><input type="text" onchange="updateName('captain_name', this)"></input></td>
+                        <td><select class="character-select" onchange="updateCharacter('captain_img', this, null)"></select></td>
+                        <td><select class="color-select" onchange="updateCharacter('captain_img', null, this)"></select></td>
+                    </tr>
+                    <tr>
+                        <td>Team Member 1</td>
+                        <td><input type="text" onchange="updateName('name_1', this)"></input></td>
+                        <td><select class="character-select" onchange="updateCharacter('char_1', this, null)"></select></td>
+                        <td><select class="color-select" onchange="updateCharacter('char_1', null, this)"></select></td>
+                    </tr>
+    
+                    <tr>
+                        <td>Team Member 2</td>
+                        <td><input type="text" onchange="updateName('name_2', this)"></input></td>
+                        <td><select class="character-select" onchange="updateCharacter('char_2', this, null)"></select></td>
+                        <td><select class="color-select" onchange="updateCharacter('char_2', null, this)"></select></td>
+                    </tr>
+
+                    <tr>
+                        <td>Team Member 3</td>
+                        <td><input type="text" onchange="updateName('name_3', this)"></input></td>
+                        <td><select class="character-select" onchange="updateCharacter('char_3', this, null)"></select></td>
+                        <td><select class="color-select" onchange="updateCharacter('char_3', null, this)"></select></td>
+                    </tr>
+    
+                    <tr>
+                        <td>Team Member 4</td>
+                        <td><input type="text" onchange="updateName('name_4', this)"></input></td>
+                        <td><select class="character-select" onchange="updateCharacter('char_4', this, null)"></select></td>
+                        <td><select class="color-select" onchange="updateCharacter('char_4', null, this)"></select></td>
+                    </tr>
+    
+                </table>
+            </div>
+            <br/>
+            <div>Instructions:</div>
+            <ul>
+                <li>Fill out all info above, changes occur automatically.</li>
+                <li>
+                    Use this page as a webview inside stream overlays, crop the webview to only see the team.
+                    <ul>
+                        <li>Page background will be transparent when using Streamlabs OBS.</li>
+                        <li>In Streamlabs, right click on the webview and select "interact" to open the viewport allowing page edits.</li>
+                    </ul>
+                </li>
+                <li>Click on a portrait to toggle that portrait being crossed out.</li>
+            </ul>
+        </div>
+
+        <!--
+            Data Output
+        -->
+        <div id="output">
+            <div class="team_captain" onclick="toggleVisible('x1')" data-idx="1">
+                <div id="captain_name" class="player_name" data-idx="1"></div>
+                <img id="x1" class="captain_x" src="x.png"></img>
+                <img id="captain_img" class="team_member" data-charactername="Mario" data-charactercolor="1"></img>
+            </div>
+            <div id="team">
+                <div id="team_1" class="team_member" onclick="toggleVisible('x2')" data-idx="2"><div id="name_1" class="player_name" data-idx="2"></div><img id="x2" class="player_x" src="x.png"></img><img id="char_1" class="team_member" data-charactername="Mario" data-charactercolor="1"></img></div>
+                <div id="team_2" class="team_member" onclick="toggleVisible('x3')" data-idx="3"><div id="name_2" class="player_name" data-idx="3"></div><img id="x3" class="player_x" src="x.png"></img><img id="char_2" class="team_member" data-charactername="Mario" data-charactercolor="1"></img></div>
+                <div id="team_3" class="team_member" onclick="toggleVisible('x4')" data-idx="4"><div id="name_3" class="player_name" data-idx="4"></div><img id="x4" class="player_x" src="x.png"></img><img id="char_3" class="team_member" data-charactername="Mario" data-charactercolor="1"></img></div>
+                <div id="team_4" class="team_member" onclick="toggleVisible('x5')" data-idx="5"><div id="name_4" class="player_name" data-idx="5"></div><img id="x5" class="player_x" src="x.png"></img><img id="char_4" class="team_member" data-charactername="Mario" data-charactercolor="1"></img></div>
+            </div>
+            <div id="company">
+                <img id="company_logo"></img>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
