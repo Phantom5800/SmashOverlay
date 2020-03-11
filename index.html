@@ -75,7 +75,7 @@
         }
 
         div#round {
-            width: 8em;
+            min-width: 6em;
             height: 1.25em;
             bottom: 1em;
             text-align: center;
@@ -91,10 +91,7 @@
         }
     </style>
 
-    <!--
-        <script type="text/javascript" src="imageFill.js"></script>
-    -->
-    <script type="text/javascript" src="data.json"></script>
+    <script type="text/javascript" src="data.js"></script>
     <script type="text/javascript">
         function getUrlVars() {
             var vars = {};
@@ -124,6 +121,7 @@
             p1Name.innerHTML = getUrlParam("p1Name", "P1");
             p2Name.innerHTML = getUrlParam("p2Name", "P2");
             round.innerHTML = getUrlParam("round", "Friendlies");
+            round.style.width = round.offsetWidth + 10;
         }
 
         function setDataFromJSON() {
