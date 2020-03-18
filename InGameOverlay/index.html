@@ -81,6 +81,10 @@
         }
 
         function setDataFromJSON() {
+            var company = data["org"];
+            document.getElementById("logo").src = orgConfig[company]["Logo"];
+            loadStylesheet(orgConfig[company]["Stylesheet"]);
+
             var p1Score = document.getElementById("p1_score");
             var p1Name = document.getElementById("p1_name");
             var p2Score = document.getElementById("p2_score");
@@ -94,11 +98,17 @@
             round.innerHTML = data["round"];
         }
 
+        // Page Load
+        var cssCount = document.styleSheets.length;
+        var ti = setInterval(function() {
+            if (document.styleSheets.length > cssCount) {
+                document.getElementById("page").style.display = "";
+                clearInterval(ti);
+            }
+        }, 10);
         window.onload = function() {
             fillDataFromVars();
             //setDataFromJSON();
-
-            document.getElementById("page").style.display = "";
         }
     </script>
 </head>
