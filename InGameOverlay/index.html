@@ -107,8 +107,11 @@
             }
         }, 10);
         window.onload = function() {
-            fillDataFromVars();
-            //setDataFromJSON();
+            if (location.hostname === "") {
+                setDataFromJSON();
+            } else {
+                fillDataFromVars();
+            }
         }
     </script>
 </head>
