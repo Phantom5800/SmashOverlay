@@ -47,7 +47,7 @@
         function getUrlVars() {
             if (getUrlParamCount() === 0) {
                 var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
-                    urlParams[key] = value;
+                    urlParams[key.toLowerCase()] = value;
                 });
             }
             return urlParams;
@@ -80,12 +80,11 @@
             var p2Name = document.getElementById("p2_name");
             var round = document.getElementById("round");
 
-            p1Score.innerHTML = getUrlParam("p1Score", "0");
-            p2Score.innerHTML = getUrlParam("p2Score", "0");
-            p1Name.innerHTML = getUrlParam("p1Name", "P1");
-            p2Name.innerHTML = getUrlParam("p2Name", "P2");
+            p1Score.innerHTML = getUrlParam("p1score", "0");
+            p2Score.innerHTML = getUrlParam("p2score", "0");
+            p1Name.innerHTML = getUrlParam("p1name", "P1");
+            p2Name.innerHTML = getUrlParam("p2name", "P2");
             round.innerHTML = getUrlParam("round", "Friendlies");
-            //round.style.width = round.offsetWidth + 10;
         }
 
         function setDataFromJSON() {
@@ -122,20 +121,41 @@
                 fillDataFromVars();
             }
         }
+
+        // page events
+        function incrementScore(element) {
+            var value = parseInt(element.innerHTML);
+            element.innerHTML = (value + 1);
+        }
+
+        function changeName(element) {
+            element.innerHTML = prompt("Enter a new name");
+        }
+
+        function changeRound(element) {
+            element.style.width = "";
+            element.innerHTML = prompt("Enter round title");
+            element.style.width = element.offsetWidth + 10;
+        }
+
+        function resetScores() {
+            document.getElementById("p1_score").innerHTML = 0;
+            document.getElementById("p2_score").innerHTML = 0;
+        }
     </script>
 </head>
 
 <body>
     <div id="page" style="display:none">
         <div id="scores">
-            <div id="p1_score" class="score">15</div>
-            <div id="p1_name" class="name">Microsoft</div>
-            <div id="p2_score" class="score">15</div>
-            <div id="p2_name" class="name">Amazon</div>
-            <img id="logo" src="MSLogo.png"></img>
+            <div id="p1_score" class="score" onclick="incrementScore(this)">15</div>
+            <div id="p1_name" class="name" onclick="changeName(this)">Microsoft</div>
+            <div id="p2_score" class="score" onclick="incrementScore(this)">15</div>
+            <div id="p2_name" class="name" onclick="changeName(this)">Amazon</div>
+            <img id="logo" src="logos/microsoft.png" onclick="resetScores()"></img>
         </div>
 
-        <div id="round">
+        <div id="round" onclick="changeRound(this)">
             Winners Finals
         </div>
     </div>
