@@ -1,5 +1,7 @@
 <html>
 <head>
+    <link href="https://fonts.googleapis.com/css?family=Anton&display=swap" rel="stylesheet">
+
     <style>
         html, body {
             background-color: rgba(30,30,30,1);
@@ -13,12 +15,16 @@
     <script type="text/javascript" src="data.js"></script>
     <script type="text/javascript">
         var orgConfig = {
-            "MS": {
-                "Logo": "MSLogo.png",
+            "amazon": {
+                "Logo": "logos/amazon.png",
                 "Stylesheet": "styles/base.css"
             },
-            "Hulu": {
-                "Logo": "HuluLogo.png",
+            "microsoft": {
+                "Logo": "logos/microsoft.png",
+                "Stylesheet": "styles/base.css"
+            },
+            "hulu": {
+                "Logo": "logos/hulu.png",
                 "Stylesheet": "styles/hulu.css"
             }
         }
@@ -33,31 +39,33 @@
             document.getElementsByTagName('HEAD')[0].appendChild(link);
         }
 
+        var urlParams = {};
+        function getUrlParamCount() {
+            return Object.keys(urlParams).length;
+        }
+
         function getUrlVars() {
-            var vars = {};
-            var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
-                vars[key] = value;
-            });
-            return vars;
+            if (getUrlParamCount() === 0) {
+                var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+                    urlParams[key] = value;
+                });
+            }
+            return urlParams;
         }
 
         function getUrlParam(parameter, defaultValue) {
             var urlParameter = defaultValue;
-            if (window.location.href.indexOf(parameter) > -1) {
-                urlParameter = getUrlVars()[parameter];
+            if (parameter in urlParams) {
+                urlParameter = urlParams[parameter];
             }
             return decodeURI(urlParameter);
         }
 
         function validateOrgParam(org)
         {
-            var validOrgs = [
-                "MS",
-                "Hulu"
-            ];
-
-            if (validOrgs.includes(org)) return org;
-            return validOrgs[0];
+            org = org.toLowerCase();
+            if (org in orgConfig) return org;
+            return "";
         }
 
         function fillDataFromVars() {
@@ -107,7 +115,8 @@
             }
         }, 10);
         window.onload = function() {
-            if (location.hostname === "") {
+            getUrlVars();
+            if (location.hostname === "" && getUrlParamCount() === 0) {
                 setDataFromJSON();
             } else {
                 fillDataFromVars();
