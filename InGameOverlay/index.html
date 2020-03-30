@@ -88,7 +88,7 @@
         }
 
         function setDataFromJSON() {
-            var company = data["org"];
+            var company = data["org"].toLowerCase();
             document.getElementById("logo").src = orgConfig[company]["Logo"];
             loadStylesheet(orgConfig[company]["Stylesheet"]);
 
@@ -128,14 +128,35 @@
             element.innerHTML = (value + 1);
         }
 
+        function decrementScore(element) {
+            var value = parseInt(element.innerHTML);
+            element.innerHTML = (value - 1);
+        }
+
         function changeName(element) {
-            element.innerHTML = prompt("Enter a new name");
+            var result = prompt("Enter a new name");
+            if (result !== null && result !== "") {
+                element.innerHTML = result;
+            }
         }
 
         function changeRound(element) {
             element.style.width = "";
-            element.innerHTML = prompt("Enter round title");
+            var result = prompt("Enter round title");
+            if (result !== null && result !== "") {
+                element.innerHTML = result;
+            }
             element.style.width = element.offsetWidth + 10;
+        }
+
+        function swapSides() {
+            var p1score = document.getElementById("p1_score");
+            var p2score = document.getElementById("p2_score");
+            var p1name = document.getElementById("p1_name");
+            var p2name = document.getElementById("p2_name");
+
+            [p1score.innerHTML, p2score.innerHTML] = [p2score.innerHTML, p1score.innerHTML];
+            [p1name.innerHTML, p2name.innerHTML] = [p2name.innerHTML, p1name.innerHTML];
         }
 
         function resetScores() {
@@ -148,11 +169,11 @@
 <body>
     <div id="page" style="display:none">
         <div id="scores">
-            <div id="p1_score" class="score" onclick="incrementScore(this)">15</div>
+            <div id="p1_score" class="score" onclick="incrementScore(this)" oncontextmenu="decrementScore(this); return false;">15</div>
             <div id="p1_name" class="name" onclick="changeName(this)">Microsoft</div>
-            <div id="p2_score" class="score" onclick="incrementScore(this)">15</div>
+            <div id="p2_score" class="score" onclick="incrementScore(this)" oncontextmenu="decrementScore(this); return false;">15</div>
             <div id="p2_name" class="name" onclick="changeName(this)">Amazon</div>
-            <img id="logo" src="logos/microsoft.png" onclick="resetScores()"></img>
+            <img id="logo" src="logos/microsoft.png" onclick="resetScores()" oncontextmenu="swapSides(); return false;"></img>
         </div>
 
         <div id="round" onclick="changeRound(this)">
