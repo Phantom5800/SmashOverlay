@@ -4,7 +4,7 @@
 
     <style>
         html, body {
-            background-color: rgba(30,30,30,1);
+            background-color: rgba(0,0,0,0);
             min-height: 100%;
             width: 100%;
             margin: 0;
@@ -26,6 +26,10 @@
             "hulu": {
                 "Logo": "logos/hulu.png",
                 "Stylesheet": "styles/hulu.css"
+            },
+            "mvd": {
+                "Logo": "logos/mvd.png",
+                "Stylesheet": "styles/mvd.css"
             }
         }
 
@@ -85,6 +89,10 @@
             p1Name.innerHTML = getUrlParam("p1name", "P1");
             p2Name.innerHTML = getUrlParam("p2name", "P2");
             round.innerHTML = getUrlParam("round", "Friendlies");
+
+            if (getUrlParam("instructions", "on") === "off") {
+                document.getElementById("instructions").style.visibility = "hidden";
+            }
         }
 
         function setDataFromJSON() {
@@ -134,9 +142,50 @@
         }
 
         function changeName(element) {
-            var result = prompt("Enter a new name");
+            var result = prompt("Enter a new name for " + element.id.substring(0, 2));
             if (result !== null && result !== "") {
                 element.innerHTML = result;
+            }
+        }
+
+        function convertUserInputToCharacter(input) {
+            var lowcase = input.toLowerCase();
+            var noWhitespace = lowcase.replace(/ /g, '_').replace(/-/g, '_');
+
+            var remap = {
+                "bayo": "bayonetta",
+                "falcon": "captain_falcon",
+                "doc": "dr_mario",
+                "g&w": "mr_game_and_watch",
+                "game_and_watch": "mr_game_and_watch",
+                "ganon": "ganondorf",
+                "puff": "jigglypuff",
+                "d3": "king_dedede",
+                "dedede": "king_dedede",
+                "krool": "king_k_rool",
+                "k_rool": "king_k_rool",
+                "megaman": "mega_man",
+                "pacman": "pac_man",
+                "plant": "piranha_plant",
+                "pt": "pokemon_trainer",
+                "rosa": "rosalina_and_luma",
+                "rosalina": "rosalina_and_luma",
+                "wii_fit": "wii_fit_trainer",
+                "zss": "zero_suit_samus",
+            };
+
+            var result = noWhitespace;
+            if (remap[noWhitespace]) {
+                result = remap[noWhitespace];
+            }
+
+            return result;
+        }
+
+        function changeCharacter(element) {
+            var result = prompt("Enter character for " + element.id.substring(0, 2));
+            if (result !== null && result !== "") {
+                element.style.backgroundImage = "url(characters/" + convertUserInputToCharacter(result) + ".png)";
             }
         }
 
@@ -157,22 +206,106 @@
 
             [p1score.innerHTML, p2score.innerHTML] = [p2score.innerHTML, p1score.innerHTML];
             [p1name.innerHTML, p2name.innerHTML] = [p2name.innerHTML, p1name.innerHTML];
+            [p1name.style.backgroundImage, p2name.style.backgroundImage] = [p2name.style.backgroundImage, p1name.style.backgroundImage]
         }
 
         function resetScores() {
             document.getElementById("p1_score").innerHTML = 0;
             document.getElementById("p2_score").innerHTML = 0;
         }
+
+        document.onkeypress = function(e) {
+            /*
+            var displayString = "";
+            displayString += "e.ctrlKey: " + e.ctrlKey + "</br>"; 
+            displayString += "e.altKey: " + e.altKey + "</br>"; 
+            displayString += "e.code: " + e.code + "</br>"; 
+            displayString += "e.keyCode: " + e.keyCode + "</br>"; 
+            displayString += "e.charCode: " + e.charCode + "</br>"; 
+            document.getElementById("instructions").innerHTML = displayString;
+            */
+            if (e.keyCode == 117) { // u
+                resetScores();
+            } else if (e.keyCode == 121) { // y
+                swapSides();
+            } else if (e.keyCode == 106) { // j
+                incrementScore(document.getElementById("p1_score"));
+            } else if (e.keyCode == 107) { // k
+                incrementScore(document.getElementById("p2_score"));
+            } else if (e.keyCode == 110) { // n
+                decrementScore(document.getElementById("p1_score"));
+            } else if (e.keyCode == 109) { // m
+                decrementScore(document.getElementById("p2_score"));
+            } else if (e.keyCode == 111) { // o
+                changeName(document.getElementById("p1_name"));
+            } else if (e.keyCode == 112) { // p
+                changeName(document.getElementById("p2_name"));
+            } else if (e.keyCode == 59) { // semicolon
+                changeCharacter(document.getElementById("p1_name"));
+            } else if (e.keyCode == 39) { // single quote
+                changeCharacter(document.getElementById("p2_name"));
+            } else if (e.keyCode == 44) { // comma
+                changeRound(document.getElementById("round"));
+            }
+        }
     </script>
 </head>
 
 <body>
     <div id="page" style="display:none">
+        <div id="instructions" style="bottom:4em;width:20em;height:25em;padding-top:1em;padding-left:0.5em;background-color:rgb(220,220,220);-webkit-text-stroke-width:0;-webkit-text-fill-color:black;" onclick="this.style.visibility='hidden';">
+            Instructions:
+            <ul style="font-size: 0.5em;font-family:Arial, Helvetica, sans-serif;font-weight: bold;">
+                <li>Click on this box to hide instructions</li>
+                <li>Left click on a score to increment the score.</li>
+                <li>Right click on a score to decrement.</li>
+                <li>Left click on player name area or round title to change the field.</li>
+                <li>Right click on a player name area to change the displayed character.</li>
+                <li>Left click on the logo to reset game counts.</li>
+                <li>Right click on the logo to swap player sides.</li>
+            </ul>
+            Stream Deck Support:
+            <ul style="font-size: 0.5em;font-family:Arial, Helvetica, sans-serif;font-weight: bold;">
+                <li>In Streamlabs, right click on the browser source and select Interact, the interact window will need to remain in focus for any hot keys to work.</li>
+                <li>For text entry, the prompt may appear behind other windows at first, but it should be available in your task bar.</li>
+                <li>
+                    Hotkeys to bind in Stream Deck:
+                    <ul>
+                        <li>P1 Increment Score: j</li>
+                        <li>P1 Decrement Score: n</li>
+                        <li>P2 Increment Score: k</li>
+                        <li>P2 Decrement Score: m</li>
+                        <li>Reset Scores: u</li>
+                        <li>Change P1 Name: o</li>
+                        <li>Change P2 Name: p</li>
+                        <li>Change P1 Character: semi-colon</li>
+                        <li>Change P2 Character: single quote</li>
+                        <li>Swap Sides: y</li>
+                        <li>Change Round: comma</li>
+                    </ul>
+                </li>
+            </ul>
+            Url params:
+            <ul style="font-size: 0.5em;font-family:Arial, Helvetica, sans-serif;font-weight: bold;">
+                <li>
+                    org=[style] - determines which overlay to display
+                    <ul>
+                        <li>microsoft (default)</li>
+                        <li>amazon</li>
+                        <li>hulu</li>
+                        <li>mvd</li>
+                    </ul>
+                </li>
+                <li>instructions=off - don't show instructions on load</li>
+            </ul>
+        </div>
+
+        <div id="tournament_name"></div>
         <div id="scores">
             <div id="p1_score" class="score" onclick="incrementScore(this)" oncontextmenu="decrementScore(this); return false;">15</div>
-            <div id="p1_name" class="name" onclick="changeName(this)">Microsoft</div>
+            <div id="p1_name" class="name" onclick="changeName(this)" oncontextmenu="changeCharacter(this); return false;">Microsoft</div>
             <div id="p2_score" class="score" onclick="incrementScore(this)" oncontextmenu="decrementScore(this); return false;">15</div>
-            <div id="p2_name" class="name" onclick="changeName(this)">Amazon</div>
+            <div id="p2_name" class="name" onclick="changeName(this)" oncontextmenu="changeCharacter(this); return false;">Amazon</div>
             <img id="logo" src="logos/microsoft.png" onclick="resetScores()" oncontextmenu="swapSides(); return false;"></img>
         </div>
 
