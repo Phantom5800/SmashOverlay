@@ -72,26 +72,20 @@ function fillDataFromVars() {
   $('#round').html(getUrlParam("round", "Friendlies"));
 
   if (getUrlParam("instructions", "on") === "off") {
-      $('#instructions').hide();
+    $('#instructions').hide();
   }
 }
 
 function setDataFromJSON() {
   var company = data["org"].toLowerCase();
-  document.getElementById("logo").src = orgConfig[company]["Logo"];
+  $('#logo').attr('src', orgConfig[company]["Logo"]);
   loadStylesheet(orgConfig[company]["Stylesheet"]);
 
-  var p1Score = document.getElementById("p1_score");
-  var p1Name = document.getElementById("p1_name");
-  var p2Score = document.getElementById("p2_score");
-  var p2Name = document.getElementById("p2_name");
-  var round = document.getElementById("round");
-
-  p1Score.innerHTML = data["p1Score"];
-  p2Score.innerHTML = data["p2Score"];
-  p1Name.innerHTML = data["p1Name"];
-  p2Name.innerHTML = data["p2Name"];
-  round.innerHTML = data["round"];
+  $('#p1_score').html(data["p1Score"]);
+  $('#p2_score').html(ata["p2Score"]);
+  $('#p1_name').html(data["p1Name"]);
+  $('#p2_name').html(data["p2Name"]);
+  $('#round').html(data["round"]);
 }
 
 // Page Load
@@ -103,12 +97,6 @@ var ti = setInterval(function() {
   }
 }, 10);
 window.onload = function() {
-  getUrlVars();
-  if (location.hostname === "" && getUrlParamCount() === 0) {
-      setDataFromJSON();
-  } else {
-      fillDataFromVars();
-  }
 }
 
 // page events
@@ -170,13 +158,14 @@ function changeCharacter(element) {
   }
 }
 
-function changeRound(element) {
-  element.style.width = "";
+function changeRound() {
+  $('#round').css('width', "");
   var result = prompt("Enter round title");
   if (result !== null && result !== "") {
-      element.innerHTML = result;
+      $('#round').html(result);
   }
-  element.style.width = element.offsetWidth + 10;
+  var offsetW = $('#round').css('offsetWidth');
+  $('#round').css('width', (offsetW + 10));
 }
 
 function swapSides() {
@@ -191,8 +180,8 @@ function swapSides() {
 }
 
 function resetScores() {
-  document.getElementById("p1_score").innerHTML = 0;
-  document.getElementById("p2_score").innerHTML = 0;
+  $('#p1_score').html(0);
+  $('#p2_score').html(0);
 }
 
 document.onkeypress = function(e) {
@@ -226,10 +215,17 @@ document.onkeypress = function(e) {
   } else if (e.keyCode == 39) { // single quote
       changeCharacter(document.getElementById("p2_name"));
   } else if (e.keyCode == 44) { // comma
-      changeRound(document.getElementById("round"));
+      changeRound();
   }
 }
 
 $(document).ready(function() {
+  getUrlVars();
+  if (location.hostname === "" && getUrlParamCount() === 0) {
+      setDataFromJSON();
+  } else {
+      fillDataFromVars();
+  }
+
 
 });
