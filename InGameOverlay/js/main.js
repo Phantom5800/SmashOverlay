@@ -92,19 +92,19 @@ function setDataFromJSON() {
 
 // page events
 function incrementScore(element) {
-  var value = parseInt(element.innerHTML);
-  element.innerHTML = (value + 1);
+  var value = parseInt(element.html());
+  element.html((value + 1));
 }
 
 function decrementScore(element) {
-  var value = parseInt(element.innerHTML);
-  element.innerHTML = (value - 1);
+  var value = parseInt(element.html());
+  element.html((value - 1));
 }
 
 function changeName(element) {
-  var result = prompt("Enter a new name for " + element.id.substring(0, 2));
+  var result = prompt("Enter a new name for " + element.attr('id').substring(0, 2));
   if (result !== null && result !== "") {
-    element.innerHTML = result;
+    element.html(result);
   }
 }
 
@@ -143,9 +143,11 @@ function convertUserInputToCharacter(input) {
 }
 
 function changeCharacter(element) {
-  var result = prompt("Enter character for " + element.id.substring(0, 2));
+  var result = prompt("Enter character for " + element.attr('id').substring(0, 2));
+  console.log(result);
   if (result !== null && result !== "") {
-    element.style.backgroundImage = "url(characters/" + convertUserInputToCharacter(result) + ".png)";
+    var img_url = 'url(\"characters/' + convertUserInputToCharacter(result) + ".png\")";
+    element.css('background-image', img_url);
   }
 }
 
@@ -184,25 +186,48 @@ $(document).ready(function() {
   }
 
   $('#p1_score').click(function() {
-    $(this).html(parseInt($(this).html()) + 1);
+    incrementScore($(this));
   });
 
   $('#p2_score').click(function() {
-    $(this).html(parseInt($(this).html()) + 1);
+    incrementScore($(this));
   });
 
   $('#p1_score').contextmenu(function() {
-    $(this).html(parseInt($(this).html()) - 1);
+    decrementScore($(this));
     return false;
   });
 
   $('#p2_score').contextmenu(function() {
-    $(this).html(parseInt($(this).html()) - 1);
+    decrementScore($(this));
     return false;
   });
 
-  $('#round').click(changeRound());
+  $('#p1_name').click(function() {
+    changeName($(this));
+  });
 
+  $('#p2_name').click(function() {
+    changeName($(this));
+  });
+
+  $('#p1_name').contextmenu(function() {
+    changeCharacter($(this));
+    return false;
+  });
+
+  $('#p2_name').contextmenu(function() {
+    changeCharacter($(this));
+    return false;
+  });
+
+  $('#round').click(function () {
+    changeRound();
+  });
+
+  $('#instructions').click(function () {
+    $(this).hide();
+  });
 
   $(document).keypress(function(e) {
     /*
@@ -219,21 +244,21 @@ $(document).ready(function() {
     } else if (e.keyCode == 121) { // y
       swapSides();
     } else if (e.keyCode == 106) { // j
-      incrementScore($("#p1_score").get(0));
+      incrementScore($("#p1_score"));
     } else if (e.keyCode == 107) { // k
-      incrementScore($("#p2_score").get(0));
+      incrementScore($("#p2_score"));
     } else if (e.keyCode == 110) { // n
-      decrementScore($("#p1_score").get(0));
+      decrementScore($("#p1_score"));
     } else if (e.keyCode == 109) { // m
-      decrementScore($("#p2_score").get(0));
+      decrementScore($("#p2_score"));
     } else if (e.keyCode == 111) { // o
-      changeName($("#p1_name").get(0));
+      changeName($("#p1_name"));
     } else if (e.keyCode == 112) { // p
-      changeName($("#p2_name").get(0));
+      changeName($("#p2_name"));
     } else if (e.keyCode == 59) { // semicolon
-      changeCharacter($("#p1_name").get(0));
+      changeCharacter($("#p1_name"));
     } else if (e.keyCode == 39) { // single quote
-      changeCharacter($("#p2_name").get(0));
+      changeCharacter($("#p2_name"));
     } else if (e.keyCode == 44) { // comma
       changeRound();
     }
