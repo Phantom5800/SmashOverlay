@@ -1,5 +1,24 @@
-.instructions {
+html, body {
+  background-color: rgba(0,0,0,0);
+  min-height: 100%;
+  width: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+.instructions-list {
   font-size: 0.5em;
   font-family: Arial, Helvetica, sans-serif;
   font-weight: bold;
+}
+
+.instructions-div {
+  bottom:4em;
+  width:20em;
+  height:25em;
+  padding-top:1em;
+  padding-left:0.5em;
+  background-color:rgb(220,220,220);
+  -webkit-text-stroke-width:0;
+  -webkit-text-fill-color:black;
 }

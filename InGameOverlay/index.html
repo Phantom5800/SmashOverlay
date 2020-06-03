@@ -1,16 +1,6 @@
 <html>
 <head>
     <link href="https://fonts.googleapis.com/css?family=Anton&display=swap" rel="stylesheet">
-
-    <style>
-        html, body {
-            background-color: rgba(0,0,0,0);
-            min-height: 100%;
-            width: 100%;
-            margin: 0;
-            overflow: hidden;
-        }
-    </style>
     <link rel="stylesheet" href="styles/helpers.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
     <script type="text/javascript" src="data.js"></script>
@@ -19,9 +9,9 @@
 
 <body>
     <div id="page" style="display:none">
-        <div id="instructions" style="bottom:4em;width:20em;height:25em;padding-top:1em;padding-left:0.5em;background-color:rgb(220,220,220);-webkit-text-stroke-width:0;-webkit-text-fill-color:black;" onclick="this.style.visibility='hidden';">
+        <div id="instructions" class="instructions-div">
             Instructions:
-            <ul style="font-size: 0.5em;font-family:Arial, Helvetica, sans-serif;font-weight: bold;">
+            <ul class="instructions-list">
                 <li>Click on this box to hide instructions</li>
                 <li>Left click on a score to increment the score.</li>
                 <li>Right click on a score to decrement.</li>
@@ -31,7 +21,7 @@
                 <li>Right click on the logo to swap player sides.</li>
             </ul>
             Stream Deck Support:
-            <ul style="font-size: 0.5em;font-family:Arial, Helvetica, sans-serif;font-weight: bold;">
+            <ul class="instructions-list">
                 <li>In Streamlabs, right click on the browser source and select Interact, the interact window will need to remain in focus for any hot keys to work.</li>
                 <li>For text entry, the prompt may appear behind other windows at first, but it should be available in your task bar.</li>
                 <li>
@@ -52,7 +42,7 @@
                 </li>
             </ul>
             Url params:
-            <ul style="font-size: 0.5em;font-family:Arial, Helvetica, sans-serif;font-weight: bold;">
+            <ul class="instructions-list">
                 <li>
                     org=[style] - determines which overlay to display
                     <ul>
@@ -68,14 +58,14 @@
 
         <div id="tournament_name"></div>
         <div id="scores">
-            <div id="p1_score" class="score" onclick="incrementScore(this)" oncontextmenu="decrementScore(this); return false;">15</div>
-            <div id="p1_name" class="name" onclick="changeName(this)" oncontextmenu="changeCharacter(this); return false;">Microsoft</div>
-            <div id="p2_score" class="score" onclick="incrementScore(this)" oncontextmenu="decrementScore(this); return false;">15</div>
-            <div id="p2_name" class="name" onclick="changeName(this)" oncontextmenu="changeCharacter(this); return false;">Amazon</div>
-            <img id="logo" src="logos/microsoft.png" onclick="resetScores()" oncontextmenu="swapSides(); return false;"></img>
+            <div id="p1_score" class="score">15</div>
+            <div id="p1_name" class="name">Microsoft</div>
+            <div id="p2_score" class="score">15</div>
+            <div id="p2_name" class="name">Amazon</div>
+            <img id="logo" src="logos/microsoft.png"></img>
         </div>
 
-        <div id="round" onclick="changeRound(this)">
+        <div id="round">
             Winners Finals
         </div>
     </div>
