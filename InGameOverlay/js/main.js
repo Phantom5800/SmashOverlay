@@ -144,7 +144,6 @@ function convertUserInputToCharacter(input) {
 
 function changeCharacter(element) {
   var result = prompt("Enter character for " + element.attr('id').substring(0, 2));
-  console.log(result);
   if (result !== null && result !== "") {
     var img_url = 'url(\"characters/' + convertUserInputToCharacter(result) + ".png\")";
     element.css('background-image', img_url);
