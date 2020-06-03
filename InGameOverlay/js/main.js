@@ -18,14 +18,16 @@ var orgConfig = {
 }
 
 var urlParams = {};
+// Page Load
+var cssCount = document.styleSheets.length;
+var ti = setInterval(function() {
+  if (document.styleSheets.length > cssCount) {
+    $('#page').css('display', '')
+    clearInterval(ti);
+  }
+}, 10);
 
 function loadStylesheet(sheet) {
-  // var link = document.createElement('link');
-
-  // link.rel = 'stylesheet';
-  // link.type = 'text/css';
-  // link.href = sheet;
-
   var link_html = "<link rel=\"stylesheet\" " + "href=\"" + sheet + "\">"
   var link = $.parseHTML(link_html);
   $('head').append(link);
@@ -47,7 +49,7 @@ function getUrlVars() {
 function getUrlParam(parameter, defaultValue) {
   var urlParameter = defaultValue;
   if (parameter in urlParams) {
-      urlParameter = urlParams[parameter];
+    urlParameter = urlParams[parameter];
   }
   return decodeURI(urlParameter);
 }
@@ -88,17 +90,6 @@ function setDataFromJSON() {
   $('#round').html(data["round"]);
 }
 
-// Page Load
-var cssCount = document.styleSheets.length;
-var ti = setInterval(function() {
-  if (document.styleSheets.length > cssCount) {
-      document.getElementById("page").style.display = "";
-      clearInterval(ti);
-  }
-}, 10);
-window.onload = function() {
-}
-
 // page events
 function incrementScore(element) {
   var value = parseInt(element.innerHTML);
@@ -113,7 +104,7 @@ function decrementScore(element) {
 function changeName(element) {
   var result = prompt("Enter a new name for " + element.id.substring(0, 2));
   if (result !== null && result !== "") {
-      element.innerHTML = result;
+    element.innerHTML = result;
   }
 }
 
@@ -122,30 +113,30 @@ function convertUserInputToCharacter(input) {
   var noWhitespace = lowcase.replace(/ /g, '_').replace(/-/g, '_');
 
   var remap = {
-      "bayo": "bayonetta",
-      "falcon": "captain_falcon",
-      "doc": "dr_mario",
-      "g&w": "mr_game_and_watch",
-      "game_and_watch": "mr_game_and_watch",
-      "ganon": "ganondorf",
-      "puff": "jigglypuff",
-      "d3": "king_dedede",
-      "dedede": "king_dedede",
-      "krool": "king_k_rool",
-      "k_rool": "king_k_rool",
-      "megaman": "mega_man",
-      "pacman": "pac_man",
-      "plant": "piranha_plant",
-      "pt": "pokemon_trainer",
-      "rosa": "rosalina_and_luma",
-      "rosalina": "rosalina_and_luma",
-      "wii_fit": "wii_fit_trainer",
-      "zss": "zero_suit_samus",
+    "bayo": "bayonetta",
+    "falcon": "captain_falcon",
+    "doc": "dr_mario",
+    "g&w": "mr_game_and_watch",
+    "game_and_watch": "mr_game_and_watch",
+    "ganon": "ganondorf",
+    "puff": "jigglypuff",
+    "d3": "king_dedede",
+    "dedede": "king_dedede",
+    "krool": "king_k_rool",
+    "k_rool": "king_k_rool",
+    "megaman": "mega_man",
+    "pacman": "pac_man",
+    "plant": "piranha_plant",
+    "pt": "pokemon_trainer",
+    "rosa": "rosalina_and_luma",
+    "rosalina": "rosalina_and_luma",
+    "wii_fit": "wii_fit_trainer",
+    "zss": "zero_suit_samus",
   };
 
   var result = noWhitespace;
   if (remap[noWhitespace]) {
-      result = remap[noWhitespace];
+    result = remap[noWhitespace];
   }
 
   return result;
@@ -154,7 +145,7 @@ function convertUserInputToCharacter(input) {
 function changeCharacter(element) {
   var result = prompt("Enter character for " + element.id.substring(0, 2));
   if (result !== null && result !== "") {
-      element.style.backgroundImage = "url(characters/" + convertUserInputToCharacter(result) + ".png)";
+    element.style.backgroundImage = "url(characters/" + convertUserInputToCharacter(result) + ".png)";
   }
 }
 
@@ -162,9 +153,9 @@ function changeRound() {
   $('#round').css('width', "");
   var result = prompt("Enter round title");
   if (result !== null && result !== "") {
-      $('#round').html(result);
+    $('#round').html(result);
   }
-  var offsetW = $('#round').css('offsetWidth');
+  var offsetW = $('#round').outerWidth();
   $('#round').css('width', (offsetW + 10));
 }
 
@@ -184,48 +175,67 @@ function resetScores() {
   $('#p2_score').html(0);
 }
 
-document.onkeypress = function(e) {
-  /*
-  var displayString = "";
-  displayString += "e.ctrlKey: " + e.ctrlKey + "</br>"; 
-  displayString += "e.altKey: " + e.altKey + "</br>"; 
-  displayString += "e.code: " + e.code + "</br>"; 
-  displayString += "e.keyCode: " + e.keyCode + "</br>"; 
-  displayString += "e.charCode: " + e.charCode + "</br>"; 
-  document.getElementById("instructions").innerHTML = displayString;
-  */
-  if (e.keyCode == 117) { // u
-      resetScores();
-  } else if (e.keyCode == 121) { // y
-      swapSides();
-  } else if (e.keyCode == 106) { // j
-      incrementScore(document.getElementById("p1_score"));
-  } else if (e.keyCode == 107) { // k
-      incrementScore(document.getElementById("p2_score"));
-  } else if (e.keyCode == 110) { // n
-      decrementScore(document.getElementById("p1_score"));
-  } else if (e.keyCode == 109) { // m
-      decrementScore(document.getElementById("p2_score"));
-  } else if (e.keyCode == 111) { // o
-      changeName(document.getElementById("p1_name"));
-  } else if (e.keyCode == 112) { // p
-      changeName(document.getElementById("p2_name"));
-  } else if (e.keyCode == 59) { // semicolon
-      changeCharacter(document.getElementById("p1_name"));
-  } else if (e.keyCode == 39) { // single quote
-      changeCharacter(document.getElementById("p2_name"));
-  } else if (e.keyCode == 44) { // comma
-      changeRound();
-  }
-}
-
 $(document).ready(function() {
   getUrlVars();
   if (location.hostname === "" && getUrlParamCount() === 0) {
-      setDataFromJSON();
+    setDataFromJSON();
   } else {
-      fillDataFromVars();
+    fillDataFromVars();
   }
 
+  $('#p1_score').click(function() {
+    $(this).html(parseInt($(this).html()) + 1);
+  });
 
+  $('#p2_score').click(function() {
+    $(this).html(parseInt($(this).html()) + 1);
+  });
+
+  $('#p1_score').contextmenu(function() {
+    $(this).html(parseInt($(this).html()) - 1);
+    return false;
+  });
+
+  $('#p2_score').contextmenu(function() {
+    $(this).html(parseInt($(this).html()) - 1);
+    return false;
+  });
+
+  $('#round').click(changeRound());
+
+
+  $(document).keypress(function(e) {
+    /*
+    var displayString = "";
+    displayString += "e.ctrlKey: " + e.ctrlKey + "</br>";
+    displayString += "e.altKey: " + e.altKey + "</br>";
+    displayString += "e.code: " + e.code + "</br>";
+    displayString += "e.keyCode: " + e.keyCode + "</br>";
+    displayString += "e.charCode: " + e.charCode + "</br>";
+    document.getElementById("instructions").innerHTML = displayString;
+    */
+    if (e.keyCode == 117) { // u
+      resetScores();
+    } else if (e.keyCode == 121) { // y
+      swapSides();
+    } else if (e.keyCode == 106) { // j
+      incrementScore($("#p1_score").get(0));
+    } else if (e.keyCode == 107) { // k
+      incrementScore($("#p2_score").get(0));
+    } else if (e.keyCode == 110) { // n
+      decrementScore($("#p1_score").get(0));
+    } else if (e.keyCode == 109) { // m
+      decrementScore($("#p2_score").get(0));
+    } else if (e.keyCode == 111) { // o
+      changeName($("#p1_name").get(0));
+    } else if (e.keyCode == 112) { // p
+      changeName($("#p2_name").get(0));
+    } else if (e.keyCode == 59) { // semicolon
+      changeCharacter($("#p1_name").get(0));
+    } else if (e.keyCode == 39) { // single quote
+      changeCharacter($("#p2_name").get(0));
+    } else if (e.keyCode == 44) { // comma
+      changeRound();
+    }
+  });
 });
