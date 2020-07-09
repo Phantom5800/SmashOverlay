@@ -115,6 +115,7 @@ function convertUserInputToCharacter(input) {
   var remap = {
     "bayo": "bayonetta",
     "falcon": "captain_falcon",
+    "diddy": "diddy_kong",
     "doc": "dr_mario",
     "g&w": "mr_game_and_watch",
     "game_and_watch": "mr_game_and_watch",

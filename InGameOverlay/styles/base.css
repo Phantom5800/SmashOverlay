@@ -1,5 +1,10 @@
+@font-face {
+    font-family:  "FredokaOne";
+    src: url("../fonts/AmazonEmber_Bd.ttf");
+}
+
 div {
-    font-family: 'Anton', sans-serif;
+    font-family: 'FredokaOne', sans-serif;
     position: absolute;
     border: 5px solid black;
     border-radius: 30px;
@@ -56,12 +61,24 @@ div.name {
 
 div#p1_name {
     left: 5%;
+    text-align: left;
+    padding-left: 0.5em;
     border-right: none;
+    background-image: url("../characters/unknown.png");
+    background-size: auto 110%;
+    background-repeat: no-repeat;
+    background-position: right;
 }
 
 div#p2_name {
     right: 5%;
+    text-align: right;
+    padding-right: 0.5em;
     border-left: none;
+    background-image: url("../characters/unknown.png");
+    background-size: auto 110%;
+    background-repeat: no-repeat;
+    background-position: left;
 }
 
 div#round {
