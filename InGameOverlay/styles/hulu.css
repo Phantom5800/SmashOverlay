@@ -1,5 +1,10 @@
+@font-face {
+    font-family:  "FredokaOne";
+    src: url("../fonts/FredokaOne.ttf");
+}
+
 div {
-    font-family: 'Anton', sans-serif;
+    font-family: 'FredokaOne', sans-serif;
     position: absolute;
     border: 5px solid rgb(28,231,131);
     border-radius: 30px;
@@ -23,7 +28,7 @@ div#scores {
     height: 1.5em;
     line-height: 1.5em;
     top: 1em;
-    background-color: black;
+    background-color: rgb(0,0,46);
 }
 
 div.score {
@@ -47,7 +52,7 @@ div#p2_score {
 }
 
 div.name {
-    width: 40%;
+    width: 37.5%;
     height: 100%;
     margin-top: -5px;
     text-align: center;
@@ -56,12 +61,24 @@ div.name {
 
 div#p1_name {
     left: 5%;
+    text-align: left;
+    padding-left: 0.5em;
     border-right: none;
+    background-image: url("../characters/unknown.png");
+    background-size: auto 110%;
+    background-repeat: no-repeat;
+    background-position: right;
 }
 
 div#p2_name {
     right: 5%;
+    text-align: right;
+    padding-right: 0.5em;
     border-left: none;
+    background-image: url("../characters/unknown.png");
+    background-size: auto 110%;
+    background-repeat: no-repeat;
+    background-position: left;
 }
 
 div#round {
@@ -70,7 +87,7 @@ div#round {
     line-height: 1.25em;
     bottom: 1em;
     text-align: center;
-    background-color: black;
+    background-color: rgb(0,0,46);
 }
 
 img#logo {
