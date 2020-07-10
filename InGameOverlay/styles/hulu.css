@@ -28,7 +28,7 @@ div#scores {
     height: 1.5em;
     line-height: 1.5em;
     top: 1em;
-    background-color: rgb(0,0,46);
+    background: linear-gradient(179deg, rgb(10,18,29), rgb(45,72,89));
 }
 
 div.score {
@@ -87,7 +87,7 @@ div#round {
     line-height: 1.25em;
     bottom: 1em;
     text-align: center;
-    background-color: rgb(0,0,46);
+    background: linear-gradient(179deg, rgb(10,18,29), rgb(45,72,89));
 }
 
 img#logo {

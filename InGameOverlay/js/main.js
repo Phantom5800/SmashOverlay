@@ -185,6 +185,15 @@ $(document).ready(function() {
     fillDataFromVars();
   }
 
+  $('#logo').click(function() {
+    resetScores();
+  });
+
+  $('#logo').contextmenu(function() {
+    swapSides();
+    return false;
+  });
+
   $('#p1_score').click(function() {
     incrementScore($(this));
   });
