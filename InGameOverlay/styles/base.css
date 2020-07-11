@@ -87,6 +87,8 @@ div#round {
     line-height: 1.25em;
     bottom: 1em;
     text-align: center;
+    padding-left: 0.75em;
+    padding-right: 0.75em;
     background-color: white;
 }
 

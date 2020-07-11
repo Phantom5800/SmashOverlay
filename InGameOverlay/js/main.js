@@ -118,6 +118,7 @@ function convertUserInputToCharacter(input) {
   var noWhitespace = lowcase.replace(/ /g, '_').replace(/-/g, '_');
 
   var remap = {
+    "banjo": "banjo_and_kazooie",
     "bayo": "bayonetta",
     "falcon": "captain_falcon",
     "diddy": "diddy_kong",
