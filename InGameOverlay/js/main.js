@@ -22,7 +22,7 @@ var urlParams = {};
 var cssCount = document.styleSheets.length;
 var ti = setInterval(function() {
   if (document.styleSheets.length > cssCount) {
-    $('#page').css('visibility', '')
+    $('#page').css('visibility', 'visible')
     clearInterval(ti);
   }
 }, 10);
