@@ -22,7 +22,7 @@ var urlParams = {};
 var cssCount = document.styleSheets.length;
 var ti = setInterval(function() {
   if (document.styleSheets.length > cssCount) {
-    $('#page').css('display', '')
+    $('#page').css('visibility', '')
     clearInterval(ti);
   }
 }, 10);
@@ -54,8 +54,7 @@ function getUrlParam(parameter, defaultValue) {
   return decodeURI(urlParameter);
 }
 
-function validateOrgParam(org)
-{
+function validateOrgParam(org) {
   org = org.toLowerCase();
   if (org in orgConfig) return org;
   return "microsoft";
@@ -65,17 +64,23 @@ function fillDataFromVars() {
   // initialize company info
   var company = validateOrgParam(getUrlParam("org", "MS"));
   $('#logo').attr('src', orgConfig[company]["Logo"]);
-  loadStylesheet(orgConfig[company]["Stylesheet"]);
-
+  
   $('#p1_score').html(getUrlParam("p1score", "0"));
   $('#p2_score').html(getUrlParam("p2score", "0"));
   $('#p1_name').html(getUrlParam("p1name", "P1"));
   $('#p2_name').html(getUrlParam("p2name", "P2"));
   $('#round').html(getUrlParam("round", "Friendlies"));
-
+  
+  var tournament_name = getUrlParam("tournament", "");
+  if (tournament_name !== "") {
+    setTournamentName(tournament_name);
+  }
+  
   if (getUrlParam("instructions", "on") === "off") {
     $('#instructions').hide();
   }
+
+  loadStylesheet(orgConfig[company]["Stylesheet"]);
 }
 
 function setDataFromJSON() {
@@ -152,13 +157,17 @@ function changeCharacter(element) {
 }
 
 function changeRound() {
-  $('#round').css('width', "");
   var result = prompt("Enter round title");
   if (result !== null && result !== "") {
     $('#round').html(result);
   }
-  var offsetW = $('#round').outerWidth();
-  $('#round').css('width', (offsetW + 10));
+}
+
+function setTournamentName(name) {
+  if (name !== null && name !== "") {
+    $('#tournament_name').html(name);
+    $('#tournament_name').css('visibility', 'visible');
+  }
 }
 
 function swapSides() {
@@ -230,11 +239,11 @@ $(document).ready(function() {
     return false;
   });
 
-  $('#round').click(function () {
+  $('#round').click(function() {
     changeRound();
   });
 
-  $('#instructions').click(function () {
+  $('#instructions').click(function() {
     $(this).hide();
   });
 

@@ -1,15 +1,15 @@
 @font-face {
-    font-family:  "FredokaOne";
+    font-family:  "Amazon";
     src: url("../fonts/AmazonEmber_Bd.ttf");
 }
 
 div {
-    font-family: 'FredokaOne', sans-serif;
+    font-family: 'Amazon', sans-serif;
     position: absolute;
     border: 5px solid black;
     border-radius: 30px;
 
-    -webkit-text-fill-color: white;
+    -webkit-text-fill-color: black;
     font-size: 1.25em;
     -webkit-text-stroke-width: 0.06em;
     -webkit-text-stroke-color: black;
@@ -99,5 +99,18 @@ img#logo {
 }
 
 div#tournament_name {
-    border: none;
+    visibility: hidden;
+    height: 1em;
+    line-height: 0.95em;
+    white-space: nowrap;
+    top: 3.25em;
+    padding-top: 0.85em;
+    padding-left: 0.75em;
+    padding-right: 0.75em;
+    padding-bottom: 0.25em;
+    font-size: 0.95em;
+    text-align: center;
+
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
 }

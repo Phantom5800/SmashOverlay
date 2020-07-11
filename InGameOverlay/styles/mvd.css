@@ -99,6 +99,8 @@ div#round {
     line-height: 1.25em;
     bottom: 1em;
     text-align: center;
+    padding-left: 0.75em;
+    padding-right: 0.75em;
     background: linear-gradient(60deg, rgba(204,203,203) 0%, rgba(152,152,152) 100%);
 }
 
@@ -111,16 +113,17 @@ img#logo {
 }
 
 div#tournament_name {
-    width: 13em;
+    visibility: hidden;
     height: 1em;
+    line-height: 0.95em;
+    white-space: nowrap;
     top: 3.25em;
     padding-top: 0.85em;
+    padding-left: 0.75em;
+    padding-right: 0.75em;
+    padding-bottom: 0.25em;
     font-size: 0.95em;
     font-weight: bold;
     text-align: center;
     background: linear-gradient(90deg, rgba(204,203,203) 0%, rgba(152,152,152) 50%, rgba(204,203,203) 100%);
-}
-
-div#tournament_name:before {
-    content: "Battle of the MVPs";
 }
