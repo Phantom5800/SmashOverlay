@@ -1,0 +1,34 @@
+<html>
+<head>
+
+    <style>
+        img {
+            height: 85px;
+        }
+    </style>
+
+    <script type="text/javascript">
+        var pokemonList = [];
+        function getPokemonFromUrl() {
+            var names = window.location.href.replace(/[?+]+([^=+])*/gi, function(m, key, value) {
+                pokemonList.push(m.substring(1).toLowerCase());
+            });
+            return pokemonList;
+        }
+
+        function loadPokemonGifs() {
+            var list = getPokemonFromUrl();
+            // https://play.pokemonshowdown.com/sprites/ani-shiny/[name].gif
+            for (var i = 0; i < list.length; ++i) {
+                var img = document.createElement('img');
+                img.src = 'https://play.pokemonshowdown.com/sprites/ani-shiny/' + list[i] + '.gif';
+                document.getElementById('body').appendChild(img);
+            }
+        }
+    </script>
+
+</head>
+<body id="body" onload="loadPokemonGifs()">
+
+</body>
+</html>
