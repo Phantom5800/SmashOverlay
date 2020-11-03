@@ -18,6 +18,7 @@ var orgConfig = {
 }
 
 var urlParams = {};
+var characterMode = "ultimate";
 // Page Load
 var cssCount = document.styleSheets.length;
 var ti = setInterval(function() {
@@ -79,6 +80,8 @@ function fillDataFromVars() {
   if (getUrlParam("instructions", "on") === "off") {
     $('#instructions').hide();
   }
+
+  characterMode = getUrlParam("mode", "ultimate");
 
   loadStylesheet(orgConfig[company]["Stylesheet"]);
 }
@@ -152,7 +155,7 @@ function convertUserInputToCharacter(input) {
 function changeCharacter(element) {
   var result = prompt("Enter character for " + element.attr('id').substring(0, 2));
   if (result !== null && result !== "") {
-    var img_url = 'url(\"characters/' + convertUserInputToCharacter(result) + ".png\")";
+    var img_url = 'url(\"characters/' + characterMode + '/' + convertUserInputToCharacter(result) + ".png\")";
     element.css('background-image', img_url);
   }
 }
