@@ -92,7 +92,7 @@ function setDataFromJSON() {
   loadStylesheet(orgConfig[company]["Stylesheet"]);
 
   $('#p1_score').html(data["p1Score"]);
-  $('#p2_score').html(ata["p2Score"]);
+  $('#p2_score').html(data["p2Score"]);
   $('#p1_name').html(data["p1Name"]);
   $('#p2_name').html(data["p2Name"]);
   $('#round').html(data["round"]);
@@ -190,6 +190,23 @@ function swapSides() {
   [p1name.style.backgroundImage, p2name.style.backgroundImage] = [p2name.style.backgroundImage, p1name.style.backgroundImage]
 }
 
+function generateUri() {
+  var org_select = document.getElementById("org_select");
+  var game_select = document.getElementById("game_select");
+  var tournament_name = document.getElementById("tournament_name");
+  var show_instructions = document.getElementById("show_instructions");
+  var generated_uri = document.getElementById("generated_uri");
+
+  var generated_string = "https://overlay.phantom-games.com?org=" + org_select.value + "&mode=" + game_select.value;
+  if (tournament_name.value.length > 0) {
+    generated_string += "&tournament=" + encodeURIComponent(tournament_name.value);
+  }
+  if (show_instructions.checked == false) {
+    generated_string += "&instructions=off";
+  }
+  generated_uri.value = generated_string;
+}
+
 function resetScores() {
   $('#p1_score').html(0);
   $('#p2_score').html(0);
@@ -253,7 +270,7 @@ $(document).ready(function() {
   });
 
   $('#instructions').click(function() {
-    $(this).hide();
+    $(this).parent().hide();
   });
 
   $(document).keypress(function(e) {
