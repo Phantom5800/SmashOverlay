@@ -23,3 +23,13 @@ html, body {
   -webkit-text-stroke-width:0;
   -webkit-text-fill-color:black;
 }
+
+input[type=text] {
+  width: 90%;
+}
+
+button#instructions {
+  float: right;
+  border-radius: 35%;
+  margin-right: 2.5%;
+}

@@ -9,10 +9,10 @@
 
 <body>
     <div id="page" style="visibility:hidden">
-        <div id="instructions" class="instructions-div">
+        <div class="instructions-div">
+            <button id="instructions">X</button>
             Instructions:
             <ul class="instructions-list">
-                <li>Click on this box to hide instructions</li>
                 <li>Left click on a score to increment the score.</li>
                 <li>Right click on a score to decrement.</li>
                 <li>Left click on player name area or round title to change the field.</li>
@@ -41,32 +41,32 @@
                     </ul>
                 </li>
             </ul>
-            Url params:
+            Uri Builder:
             <ul class="instructions-list">
-                <li>
-                    org=[style] - determines which overlay to display
-                    <ul>
-                        <li>microsoft (default)</li>
-                        <li>amazon</li>
-                        <li>hulu</li>
-                        <li>mvd</li>
-                    </ul>
-                </li>
-                <li>
-                    mode=[game] - determines character portrait set to use
-                    <ul>
-                        <li>ultimate (default)</li>
-                        <li>melee</li>
-                    </ul>
-                </li>
-                <li>tournament=[name] - display a tournament name below player scores</li>
-                <li>instructions=off - don't show instructions on load</li>
-            </ul>
-            GitHub:
-            <ul class="instructions-list">
-                <li>
+                <p>
+                    Org: <select id="org_select" onchange="generateUri()">
+                        <option>amazon</option>
+                        <option>hulu</option>
+                        <option>microsoft</option>
+                        <option>mvd</option>
+                    </select>
+                    Game: <select id="game_select" onchange="generateUri()">
+                        <option>ultimate</option>
+                        <option>melee</option>
+                    </select>
+                </p>
+                <p>
+                    Tournament Name: <input type="text" id="tournament_name" onchange="generateUri()"/>
+                </p>
+                <p>
+                    Show Instructions: <input type="checkbox" id="show_instructions" onchange="generateUri()"/>
+                </p>
+                <p>
+                    Generated Uri: <input type="text" id="generated_uri" value="https://overlay.phantom-games.com?org=amazon&game=ultimate&instructions=off" disabled/>
+                </p>
+                <p>
                     Overlay source code: <a href="https://github.com/Phantom5800/streamoverlay" target="_blank">https://github.com/Phantom5800/streamoverlay</a>
-                </li>
+                </p>
             </ul>
         </div>
 
