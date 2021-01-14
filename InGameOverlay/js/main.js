@@ -198,7 +198,7 @@ function swapSides() {
 function generateUri() {
   var org_select = document.getElementById("org_select");
   var game_select = document.getElementById("game_select");
-  var tournament_name = document.getElementById("tournament_name");
+  var tournament_name = document.getElementById("tournament_name_entry");
   var show_instructions = document.getElementById("show_instructions");
   var streamdeck = document.getElementById("streamdeck");
   var generated_uri = document.getElementById("generated_uri");
