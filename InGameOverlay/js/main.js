@@ -17,6 +17,7 @@ var orgConfig = {
   }
 }
 
+var streamdeck_hotkeys = false;
 var urlParams = {};
 var characterMode = "ultimate";
 // Page Load
@@ -78,7 +79,11 @@ function fillDataFromVars() {
   }
   
   if (getUrlParam("instructions", "on") === "off") {
-    $('#instructions').hide();
+    $('#instructions').parent().hide();
+  }
+
+  if (getUrlParam("streamdeck", "false") === "true") {
+    streamdeck_hotkeys = true;
   }
 
   characterMode = getUrlParam("mode", "ultimate");
@@ -195,6 +200,7 @@ function generateUri() {
   var game_select = document.getElementById("game_select");
   var tournament_name = document.getElementById("tournament_name");
   var show_instructions = document.getElementById("show_instructions");
+  var streamdeck = document.getElementById("streamdeck");
   var generated_uri = document.getElementById("generated_uri");
 
   var generated_string = "https://overlay.phantom-games.com?org=" + org_select.value + "&mode=" + game_select.value;
@@ -203,6 +209,9 @@ function generateUri() {
   }
   if (show_instructions.checked == false) {
     generated_string += "&instructions=off";
+  }
+  if (streamdeck.checked) {
+    generated_string += "&streamdeck=true";
   }
   generated_uri.value = generated_string;
 }
@@ -274,37 +283,30 @@ $(document).ready(function() {
   });
 
   $(document).keypress(function(e) {
-    /*
-    var displayString = "";
-    displayString += "e.ctrlKey: " + e.ctrlKey + "</br>";
-    displayString += "e.altKey: " + e.altKey + "</br>";
-    displayString += "e.code: " + e.code + "</br>";
-    displayString += "e.keyCode: " + e.keyCode + "</br>";
-    displayString += "e.charCode: " + e.charCode + "</br>";
-    document.getElementById("instructions").innerHTML = displayString;
-    */
-    if (e.keyCode == 117) { // u
-      resetScores();
-    } else if (e.keyCode == 121) { // y
-      swapSides();
-    } else if (e.keyCode == 106) { // j
-      incrementScore($("#p1_score"));
-    } else if (e.keyCode == 107) { // k
-      incrementScore($("#p2_score"));
-    } else if (e.keyCode == 110) { // n
-      decrementScore($("#p1_score"));
-    } else if (e.keyCode == 109) { // m
-      decrementScore($("#p2_score"));
-    } else if (e.keyCode == 111) { // o
-      changeName($("#p1_name"));
-    } else if (e.keyCode == 112) { // p
-      changeName($("#p2_name"));
-    } else if (e.keyCode == 59) { // semicolon
-      changeCharacter($("#p1_name"));
-    } else if (e.keyCode == 39) { // single quote
-      changeCharacter($("#p2_name"));
-    } else if (e.keyCode == 44) { // comma
-      changeRound();
+    if (streamdeck_hotkeys) {
+      if (e.keyCode == 117) { // u
+        resetScores();
+      } else if (e.keyCode == 121) { // y
+        swapSides();
+      } else if (e.keyCode == 106) { // j
+        incrementScore($("#p1_score"));
+      } else if (e.keyCode == 107) { // k
+        incrementScore($("#p2_score"));
+      } else if (e.keyCode == 110) { // n
+        decrementScore($("#p1_score"));
+      } else if (e.keyCode == 109) { // m
+        decrementScore($("#p2_score"));
+      } else if (e.keyCode == 111) { // o
+        changeName($("#p1_name"));
+      } else if (e.keyCode == 112) { // p
+        changeName($("#p2_name"));
+      } else if (e.keyCode == 59) { // semicolon
+        changeCharacter($("#p1_name"));
+      } else if (e.keyCode == 39) { // single quote
+        changeCharacter($("#p2_name"));
+      } else if (e.keyCode == 44) { // comma
+        changeRound();
+      }
     }
   });
 });
