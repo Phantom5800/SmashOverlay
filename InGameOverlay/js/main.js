@@ -17,6 +17,40 @@ var orgConfig = {
   }
 }
 
+var characterNameMap = new Map();
+
+var remap = {
+  "banjo":            "banjo_and_kazooie",
+  "bayo":             "bayonetta",
+  "jr":               "bowser_jr",
+  "falcon":           "captain_falcon",
+  "diddy":            "diddy_kong",
+  "donkey_kong":      "dk",
+  "doc":              "dr_mario",
+  "ganon":            "ganondorf",
+  "puff":             "jigglypuff",
+  "d3":               "king_dedede",
+  "dedede":           "king_dedede",
+  "krool":            "king_k_rool",
+  "k_rool":           "king_k_rool",
+  "mac":              "little_mac",
+  "megaman":          "mega_man",
+  "min-min":          "minmin",
+  "min_min":          "minmin",
+  "g&w":              "mr_game_and_watch",
+  "game_and_watch":   "mr_game_and_watch",
+  "pac":              "pac_man",
+  "pacman":           "pac_man",
+  "plant":            "piranha_plant",
+  "pt":               "pokemon_trainer",
+  "rosa":             "rosalina_and_luma",
+  "rosalina":         "rosalina_and_luma",
+  "tink":             "toon_link",
+  "wii_fit":          "wii_fit_trainer",
+  "yink":             "young_link",
+  "zss":              "zero_suit_samus",
+};
+
 var streamdeck_hotkeys = false;
 var urlParams = {};
 var characterMode = "ultimate";
@@ -69,38 +103,37 @@ function fillDataFromVars() {
   
   $('#p1_score').html(getUrlParam("p1score", "0"));
   $('#p2_score').html(getUrlParam("p2score", "0"));
-  $('#p1_name').html(getUrlParam("p1name", "P1"));
-  $('#p2_name').html(getUrlParam("p2name", "P2"));
+  $('#p1_name').html(decodeURIComponent(getUrlParam("p1name", "P1")));
+  $('#p2_name').html(decodeURIComponent(getUrlParam("p2name", "P2")));
   $('#round').html(getUrlParam("round", "Friendlies"));
   
   var tournament_name = getUrlParam("tournament", "");
   if (tournament_name !== "") {
-    setTournamentName(tournament_name);
+    setTournamentName(decodeURIComponent(tournament_name));
+  }
+
+  characterMode = getUrlParam("mode", "ultimate");
+  var character1 = getUrlParam("p1char", "");
+  if (character1 !== "") {
+    setCharacter($('#p1_name'), character1);
+  }
+  var character2 = getUrlParam("p2char", "");
+  if (character2 !== "") {
+    setCharacter($('#p2_name'), character2);
   }
   
   if (getUrlParam("instructions", "on") === "off") {
     $('#instructions').parent().hide();
+  } else {
+    // generate initial character lists if instructions are visible
+    generateCharacterLists();
   }
 
   if (getUrlParam("streamdeck", "false") === "true") {
     streamdeck_hotkeys = true;
   }
 
-  characterMode = getUrlParam("mode", "ultimate");
-
   loadStylesheet(orgConfig[company]["Stylesheet"]);
-}
-
-function setDataFromJSON() {
-  var company = data["org"].toLowerCase();
-  $('#logo').attr('src', orgConfig[company]["Logo"]);
-  loadStylesheet(orgConfig[company]["Stylesheet"]);
-
-  $('#p1_score').html(data["p1Score"]);
-  $('#p2_score').html(data["p2Score"]);
-  $('#p1_name').html(data["p1Name"]);
-  $('#p2_name').html(data["p2Name"]);
-  $('#round').html(data["round"]);
 }
 
 // page events
@@ -124,39 +157,6 @@ function changeName(element) {
 function convertUserInputToCharacter(input) {
   var lowcase = input.toLowerCase();
   var noWhitespace = lowcase.replace(/ /g, '_').replace(/-/g, '_');
-
-  var remap = {
-    "banjo":            "banjo_and_kazooie",
-    "bayo":             "bayonetta",
-    "jr":               "bowser_jr",
-    "falcon":           "captain_falcon",
-    "diddy":            "diddy_kong",
-    "donkey_kong":      "dk",
-    "doc":              "dr_mario",
-    "ganon":            "ganondorf",
-    "puff":             "jigglypuff",
-    "d3":               "king_dedede",
-    "dedede":           "king_dedede",
-    "krool":            "king_k_rool",
-    "k_rool":           "king_k_rool",
-    "mac":              "little_mac",
-    "megaman":          "mega_man",
-    "min-min":          "minmin",
-    "min_min":          "minmin",
-    "g&w":              "mr_game_and_watch",
-    "game_and_watch":   "mr_game_and_watch",
-    "pac":              "pac_man",
-    "pacman":           "pac_man",
-    "plant":            "piranha_plant",
-    "pt":               "pokemon_trainer",
-    "rosa":             "rosalina_and_luma",
-    "rosalina":         "rosalina_and_luma",
-    "tink":             "toon_link",
-    "wii_fit":          "wii_fit_trainer",
-    "yink":             "young_link",
-    "zss":              "zero_suit_samus",
-  };
-
   var result = noWhitespace;
   if (remap[noWhitespace]) {
     result = remap[noWhitespace];
@@ -165,11 +165,15 @@ function convertUserInputToCharacter(input) {
   return result;
 }
 
+function setCharacter(element, characterName) {
+  var img_url = 'url(\"characters/' + characterMode + '/' + characterName + ".png\")";
+  element.css('background-image', img_url);
+}
+
 function changeCharacter(element) {
   var result = prompt("Enter character for " + element.attr('id').substring(0, 2));
   if (result !== null && result !== "") {
-    var img_url = 'url(\"characters/' + characterMode + '/' + convertUserInputToCharacter(result) + ".png\")";
-    element.css('background-image', img_url);
+    setCharacter(element, convertUserInputToCharacter(result));
   }
 }
 
@@ -198,6 +202,16 @@ function swapSides() {
   [p1name.style.backgroundImage, p2name.style.backgroundImage] = [p2name.style.backgroundImage, p1name.style.backgroundImage]
 }
 
+function getBaseUri() {
+  var baseUri = "";
+  if (location.hostname === "") { // local file
+    baseUri = window.location.protocol + "/" + window.location.host + "/" + window.location.pathname.split('.')[0] + ".html";
+  } else { // hosted site
+    baseUri = window.location.protocol + "//" + window.location.host + "/" + window.location.pathname.split('/')[1];
+  }
+  return baseUri;
+}
+
 function generateUri() {
   var org_select = document.getElementById("org_select");
   var game_select = document.getElementById("game_select");
@@ -205,8 +219,16 @@ function generateUri() {
   var show_instructions = document.getElementById("show_instructions");
   var streamdeck = document.getElementById("streamdeck");
   var generated_uri = document.getElementById("generated_uri");
+  var p1_name = document.getElementById("p1_name_entry");
+  var p2_name = document.getElementById("p2_name_entry");
+  var p1_char = document.getElementById("p1_char_entry");
+  var p2_char = document.getElementById("p2_char_entry");
 
-  var generated_string = "https://overlay.phantom-games.com?org=" + org_select.value + "&mode=" + game_select.value;
+  // get base uri
+  var baseUri = getBaseUri();
+
+  // basic settings
+  var generated_string = baseUri + "?org=" + org_select.value + "&mode=" + game_select.value;
   if (tournament_name.value.length > 0) {
     generated_string += "&tournament=" + encodeURIComponent(tournament_name.value);
   }
@@ -216,7 +238,47 @@ function generateUri() {
   if (streamdeck.checked) {
     generated_string += "&streamdeck=true";
   }
+
+  // default fields
+  function createArg(argName, valueStr) {
+    if (valueStr.replace(/\s/g, '').length > 0 && valueStr != "P1" && valueStr != "P2") {
+      return "&" + argName + "=" + encodeURIComponent(valueStr);
+    }
+    return "";
+  }
+
+  generated_string += createArg("p1name", p1_name.value);
+  generated_string += createArg("p2name", p2_name.value);
+  generated_string += createArg("p1char", p1_char.value);
+  generated_string += createArg("p2char", p2_char.value);
+
+  // update uri
   generated_uri.value = generated_string;
+}
+
+function generateCharacterLists() {
+  var game = document.getElementById("game_select").value;
+  var p1_char_list = document.getElementById("p1_char_entry");
+  var p2_char_list = document.getElementById("p2_char_entry");
+
+  // clear existing list
+  $("#p1_char_entry").find("option").remove();
+  $("#p2_char_entry").find("option").remove();
+
+  // add all characters
+  $("#p1_char_entry").append(new Option("               ", ""));
+  $("#p2_char_entry").append(new Option("               ", ""));
+
+  for (var character in characterNameMap.get(game)) {
+    var characterName = characterNameMap.get(game)[character];
+    $("#p1_char_entry").append(new Option(characterName, characterName));
+    $("#p2_char_entry").append(new Option(characterName, characterName));
+  }
+
+  p1_char_list.selectedIndex = 0;
+  p2_char_list.selectedIndex = 0;
+
+  generateUri();
 }
 
 function resetScores() {
@@ -226,11 +288,7 @@ function resetScores() {
 
 $(document).ready(function() {
   getUrlVars();
-  if (location.hostname === "" && getUrlParamCount() === 0) {
-    setDataFromJSON();
-  } else {
-    fillDataFromVars();
-  }
+  fillDataFromVars();
 
   $('#logo').click(function() {
     resetScores();
