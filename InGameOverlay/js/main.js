@@ -1,19 +1,27 @@
 var orgConfig = {
+  "8bitman": {
+    "Logo": "logos/8bitman.png",
+    "Stylesheet": "styles/8bitman.css"
+  },
   "amazon": {
-      "Logo": "logos/amazon.png",
-      "Stylesheet": "styles/base.css"
+    "Logo": "logos/amazon.png",
+    "Stylesheet": "styles/base.css"
   },
   "microsoft": {
-      "Logo": "logos/microsoft.png",
-      "Stylesheet": "styles/base.css"
+    "Logo": "logos/microsoft.png",
+    "Stylesheet": "styles/base.css"
   },
   "hulu": {
-      "Logo": "logos/hulu.png",
-      "Stylesheet": "styles/hulu.css"
+    "Logo": "logos/hulu.png",
+    "Stylesheet": "styles/hulu.css"
   },
   "mvd": {
-      "Logo": "logos/mvd.png",
-      "Stylesheet": "styles/mvd.css"
+    "Logo": "logos/mvd.png",
+    "Stylesheet": "styles/mvd.css"
+  },
+  "phantom": {
+    "Logo": "logos/phantom.png",
+    "Stylesheet": "styles/phantom.css"
   }
 }
 
@@ -105,7 +113,7 @@ function fillDataFromVars() {
   $('#p2_score').html(getUrlParam("p2score", "0"));
   $('#p1_name').html(decodeURIComponent(getUrlParam("p1name", "P1")));
   $('#p2_name').html(decodeURIComponent(getUrlParam("p2name", "P2")));
-  $('#round').html(getUrlParam("round", "Friendlies"));
+  $('#round').html(decodeURIComponent(getUrlParam("round", "Friendlies")));
   
   var tournament_name = getUrlParam("tournament", "");
   if (tournament_name !== "") {
@@ -218,11 +226,12 @@ function generateUri() {
   var tournament_name = document.getElementById("tournament_name_entry");
   var show_instructions = document.getElementById("show_instructions");
   var streamdeck = document.getElementById("streamdeck");
-  var generated_uri = document.getElementById("generated_uri");
   var p1_name = document.getElementById("p1_name_entry");
   var p2_name = document.getElementById("p2_name_entry");
   var p1_char = document.getElementById("p1_char_entry");
   var p2_char = document.getElementById("p2_char_entry");
+  var round = document.getElementById("round_name");
+  var generated_uri = document.getElementById("generated_uri");
 
   // get base uri
   var baseUri = getBaseUri();
@@ -231,6 +240,9 @@ function generateUri() {
   var generated_string = baseUri + "?org=" + org_select.value + "&mode=" + game_select.value;
   if (tournament_name.value.length > 0) {
     generated_string += "&tournament=" + encodeURIComponent(tournament_name.value);
+  }
+  if (round.value.length > 0) {
+    generated_string += "&round=" + encodeURIComponent(round.value);
   }
   if (show_instructions.checked == false) {
     generated_string += "&instructions=off";

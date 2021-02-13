@@ -1,0 +1,122 @@
+@font-face {
+    font-family: "PaperMario";
+    src: url("../fonts/SuperMarioScript2Demo-Regular.ttf");
+}
+
+div {
+    font-family: 'PaperMario';
+    position: absolute;
+    border: 5px solid rgb(82,58,107);
+    border-radius: 10px;
+
+    -webkit-text-fill-color: rgb(47,47,47);
+    font-size: 1.25em;
+}
+
+div#page {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: flex;
+    justify-content: center;
+}
+
+div#scores {
+    width: 40em;
+    height: 1.5em;
+    line-height: 1.5em;
+    top: 1em;
+    background: linear-gradient(90deg, rgba(204,203,203) 0%, rgba(152,152,152) 50%, rgba(204,203,203) 100%);
+}
+
+div.score {
+    width: 5%;
+    height: 100%;
+    margin: -5px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+div#p1_score {
+    left: 0%;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+div#p2_score {
+    right: 0%;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+
+div.name {
+    width: 38.5%;
+    height: 100%;
+    margin-top: -5px;
+    border-radius: 0px;
+    font-size: 1em;
+}
+
+div.name:before {
+    width: 389px;
+    height: 94px;
+    border: 5px solid black;
+    top: 0;
+    right: 0;
+}
+
+div#p1_name {
+    left: 5%;
+    text-align: left;
+    padding-left: 0.8em;
+    border-right: none;
+    background-image: url("../characters/unknown.png");
+    background-size: auto 110%;
+    background-repeat: no-repeat;
+    background-position: right;
+}
+
+div#p2_name {
+    right: 5%;
+    text-align: right;
+    padding-right: 0.8em;
+    border-left: none;
+    background-image: url("../characters/unknown.png");
+    background-size: auto 110%;
+    background-repeat: no-repeat;
+    background-position: left;
+}
+
+div#round {
+    min-width: 6em;
+    height: 1.25em;
+    line-height: 1.25em;
+    bottom: 1em;
+    text-align: center;
+    padding-left: 0.75em;
+    padding-right: 0.75em;
+    background: linear-gradient(60deg, rgba(204,203,203) 0%, rgba(152,152,152) 100%);
+}
+
+img#logo {
+    height: 3.5em;
+    top: -1.25em;
+    left: 18em;
+    position: absolute;
+    filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.75));
+}
+
+div#tournament_name {
+    visibility: hidden;
+    height: 1em;
+    line-height: 0.95em;
+    white-space: nowrap;
+    top: 3.25em;
+    padding-top: 0.85em;
+    padding-left: 0.75em;
+    padding-right: 0.75em;
+    padding-bottom: 0.25em;
+    font-size: 0.95em;
+    text-align: center;
+    background: linear-gradient(90deg, rgba(204,203,203) 0%, rgba(152,152,152) 50%, rgba(204,203,203) 100%);
+}

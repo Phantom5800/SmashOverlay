@@ -47,10 +47,12 @@
                 <li>Create a custom uri using default parameters below</li>
                 <p>
                     Org: <select id="org_select" onchange="generateUri()">
+                        <option>8bitman</option>
                         <option>amazon</option>
                         <option>hulu</option>
                         <option>microsoft</option>
                         <option>mvd</option>
+                        <option>phantom</option>
                     </select>
                     Game: <select id="game_select" onchange="generateCharacterLists()">
                         <option>ultimate</option>
@@ -65,6 +67,9 @@
                 </p>
                 <p>
                     Default Characters:<br><select id="p1_char_entry" onchange="generateUri()"></select> <select id="p2_char_entry" onchange="generateUri()"></select>
+                </p>
+                <p>
+                    Default Round: <input type="text" id="round_name" onchange="generateUri()"/>
                 </p>
                 <p>
                     Show Instructions: <input type="checkbox" id="show_instructions" onchange="generateUri()"/>
