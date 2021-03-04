@@ -45,6 +45,7 @@ var remap = {
   "megaman":          "mega_man",
   "min-min":          "minmin",
   "min_min":          "minmin",
+  "mythra":           "pyra",
   "g&w":              "mr_game_and_watch",
   "game_and_watch":   "mr_game_and_watch",
   "pac":              "pac_man",

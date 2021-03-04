@@ -61,6 +61,7 @@ characterNameMap.set('ultimate', [
   'piranha_plant',
   'pit',
   'pokemon_trainer',
+  'pyra',
   'richter',
   'ridley',
   'rob',
