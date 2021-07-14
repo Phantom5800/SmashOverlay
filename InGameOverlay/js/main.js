@@ -139,7 +139,7 @@ function fillDataFromVars() {
   if (webcamType == 1) {
     $('#webcam-1-1').css('visibility', 'visible');
   } else if (webcamType == 2) {
-    $('#webcam-2-1').css('visibility', 'visible');
+    $('#webcam-1-1').css('visibility', 'visible');
     $('#webcam-2-2').css('visibility', 'visible');
   }
   
