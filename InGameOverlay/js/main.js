@@ -11,6 +11,10 @@ var orgConfig = {
     "Logo": "logos/microsoft.png",
     "Stylesheet": "styles/base.css"
   },
+  "galint": {
+    "Logo": "logos/GSL-LOGO.svg",
+    "Stylesheet": "styles/galint.css"
+  },
   "hulu": {
     "Logo": "logos/hulu.png",
     "Stylesheet": "styles/hulu.css"
@@ -130,6 +134,14 @@ function fillDataFromVars() {
   if (character2 !== "") {
     setCharacter($('#p2_name'), character2);
   }
+
+  var webcamType = getUrlParam("webcam", 0);
+  if (webcamType == 1) {
+    $('#webcam-1-1').css('visibility', 'visible');
+  } else if (webcamType == 2) {
+    $('#webcam-2-1').css('visibility', 'visible');
+    $('#webcam-2-2').css('visibility', 'visible');
+  }
   
   if (getUrlParam("instructions", "on") === "off") {
     $('#instructions').parent().hide();
@@ -225,6 +237,7 @@ function generateUri() {
   var org_select = document.getElementById("org_select");
   var game_select = document.getElementById("game_select");
   var tournament_name = document.getElementById("tournament_name_entry");
+  var webcam_type = document.getElementById("webcam_type")
   var show_instructions = document.getElementById("show_instructions");
   var streamdeck = document.getElementById("streamdeck");
   var p1_name = document.getElementById("p1_name_entry");
@@ -244,6 +257,9 @@ function generateUri() {
   }
   if (round.value.length > 0) {
     generated_string += "&round=" + encodeURIComponent(round.value);
+  }
+  if (webcam_type.selectedIndex > 0) {
+    generated_string += "&webcam=" + webcam_type.selectedIndex;
   }
   if (show_instructions.checked == false) {
     generated_string += "&instructions=off";

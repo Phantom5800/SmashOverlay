@@ -1,0 +1,137 @@
+@font-face {
+    font-family:  "Montserrat";
+    src: url("../fonts/Montserrat-Bold.ttf");
+}
+
+div {
+    font-family: 'Montserrat', sans-serif;
+    position: absolute;
+    border: 5px solid;
+    border-image-slice: 1;
+    border-image-source: linear-gradient(to bottom, rgb(74,49,152), rgb(81,140,185));
+    border-width: 5px;
+    /*border-radius: 30px;*/
+
+    -webkit-text-fill-color: white;
+    font-size: 1.25em;
+}
+
+div#page {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: flex;
+    justify-content: center;
+}
+
+div#scores {
+    width: 40em;
+    height: 1.5em;
+    line-height: 1.5em;
+    top: 1em;
+    border:none;
+}
+
+div.score {
+    width: 5%;
+    height: 100%;
+    margin: -5px;
+    text-align: center;
+    vertical-align: middle;
+    background-color: rgb(9,0,29);
+}
+
+div#p1_score {
+    left: 0%;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+div#p2_score {
+    right: 0%;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+
+div.name {
+    width: 33%;
+    height: 100%;
+    margin-top: -5px;
+    text-align: center;
+    border-radius: 0px;
+    background-color: rgb(9,0,29);
+}
+
+div#p1_name {
+    left: 5%;
+    text-align: left;
+    padding-left: 0.5em;
+    /*border-right: none;*/
+    background-image: url("../characters/unknown.png");
+    background-size: auto 110%;
+    background-repeat: no-repeat;
+    background-position: right;
+}
+
+div#p2_name {
+    right: 5%;
+    text-align: right;
+    padding-right: 0.5em;
+    /*border-left: none;*/
+    background-image: url("../characters/unknown.png");
+    background-size: auto 110%;
+    background-repeat: no-repeat;
+    background-position: left;
+}
+
+div#round {
+    min-width: 6em;
+    height: 1.25em;
+    line-height: 1.25em;
+    font-size: 0.9em;
+    top: 5em;
+    text-align: center;
+    padding-left: 0.75em;
+    padding-right: 0.75em;
+    border: 2px solid rgba(0,0,0,0);
+    border-radius: 2px;
+    background-color: rgba(9,0,29,0.5);
+    box-shadow: 0 0 8px;
+}
+
+img#logo {
+    height: 4.5em;
+    top: -1.25em;
+    left: 15.5em;
+    /* height: 3.75em;
+    top: -1.25em;
+    left: 16.25em; */
+    position: absolute;
+    filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.75));
+}
+
+div#tournament_name {
+    visibility: hidden;
+    height: 1em;
+    line-height: 0.95em;
+    white-space: nowrap;
+    top: 3.25em;
+    padding-top: 0.85em;
+    padding-left: 0.75em;
+    padding-right: 0.75em;
+    padding-bottom: 0.25em;
+    font-size: 0.95em;
+    text-align: center;
+
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    background-color: white;
+}
+
+div#webcam-1-1 {
+    width: 12em;
+    height: 6.75em;
+    left: 2em;
+    bottom: 1.75em;
+    border-radius: 5px;
+}
