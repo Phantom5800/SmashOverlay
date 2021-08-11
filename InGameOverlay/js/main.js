@@ -53,6 +53,7 @@ var remap = {
 };
 
 var streamdeck_hotkeys = false;
+var use_stock_icons = false;
 var urlParams = {};
 var characterMode = "ultimate";
 // Page Load
@@ -111,6 +112,10 @@ function fillDataFromVars() {
   var tournament_name = getUrlParam("tournament", "");
   if (tournament_name !== "") {
     setTournamentName(decodeURIComponent(tournament_name));
+  }
+
+  if (getUrlParam("icon", "") === "stock") {
+    use_stock_icons = true;
   }
 
   characterMode = getUrlParam("mode", "ultimate");
@@ -175,7 +180,11 @@ function convertUserInputToCharacter(input) {
 }
 
 function setCharacter(element, characterName) {
-  var img_url = 'url(\"characters/' + characterMode + '/' + characterName + ".png\")";
+  var base_path = 'characters/' + characterMode + '/';
+  if (use_stock_icons) {
+    base_path += 'stock/';
+  }
+  var img_url = 'url(\"' + base_path + characterName + ".png\")";
   element.css('background-image', img_url);
 }
 
@@ -234,6 +243,7 @@ function generateUri() {
   var p2_char = document.getElementById("p2_char_entry");
   var round = document.getElementById("round_name");
   var generated_uri = document.getElementById("generated_uri");
+  var portrait_type = document.getElementById("portrait_type");
 
   // get base uri
   var baseUri = getBaseUri();
@@ -254,6 +264,9 @@ function generateUri() {
   }
   if (streamdeck.checked) {
     generated_string += "&streamdeck=true";
+  }
+  if (portrait_type.value === "Stock Icon") {
+    generated_string += "&icon=stock";
   }
 
   // default fields
