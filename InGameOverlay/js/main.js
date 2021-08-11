@@ -1,8 +1,4 @@
 var orgConfig = {
-  "8bitman": {
-    "Logo": "logos/8bitman.png",
-    "Stylesheet": "styles/8bitman.css"
-  },
   "amazon": {
     "Logo": "logos/amazon.png",
     "Stylesheet": "styles/base.css"
@@ -15,18 +11,10 @@ var orgConfig = {
     "Logo": "logos/GSL-LOGO.svg",
     "Stylesheet": "styles/galint.css"
   },
-  "hulu": {
-    "Logo": "logos/hulu.png",
-    "Stylesheet": "styles/hulu.css"
-  },
   "mvd": {
     "Logo": "logos/mvd.png",
     "Stylesheet": "styles/mvd.css"
   },
-  "phantom": {
-    "Logo": "logos/phantom.png",
-    "Stylesheet": "styles/phantom.css"
-  }
 }
 
 var characterNameMap = new Map();
