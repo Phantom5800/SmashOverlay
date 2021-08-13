@@ -23,6 +23,7 @@ characterNameMap.set('melee', [
   'roy',
   'samus',
   'sheik',
+  'stock',
   'yoshi',
   'young_link',
   'zelda',
