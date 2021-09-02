@@ -42,59 +42,85 @@
                     </ul>
                 </li>
             </ul>
+            <!--
+                URI builder fills out all the uri params anyone would want to actually use.
+            -->
             Uri Builder:
             <ul class="instructions-list">
                 <li>Create a custom uri using default parameters below</li>
-                <p>
-                    Org: <select id="org_select" onchange="generateUri()">
-                        <option>amazon</option>
-                        <option>galint</option>
-                        <option>microsoft</option>
-                        <option>mvd</option>
-                    </select>
-                    Game: <select id="game_select" onchange="generateCharacterLists()">
-                        <option>ultimate</option>
-                        <option>melee</option>
-                    </select>
-                    Portrait: <select id="portrait_type" onchange="generateUri()">
-                        <option>Character Portrait</option>
-                        <option>Stock Icon</option>
-                    </select>
-                </p>
-                <p>
-                    Tournament Name: <input type="text" id="tournament_name_entry" onchange="generateUri()"/>
-                </p>
-                <p>
-                    Default Player Names: <input type="text" id="p1_name_entry" value="P1" onchange="generateUri()"/> <input type="text" id="p2_name_entry" value="P2" onchange="generateUri()"/>
-                </p>
-                <p>
-                    Default Characters:<br><select id="p1_char_entry" onchange="generateUri()"></select> <select id="p2_char_entry" onchange="generateUri()"></select>
-                </p>
-                <p>
-                    Default Round: <input type="text" id="round_name" onchange="generateUri()"/>
-                </p>
-                <p>
-                    Webcam Type: <select id="webcam_type" onchange="generateUri()">
-                        <option>None</option>
-                        <option>1 Cam</option>
-                        <option>2 Cams</option>
-                    </select>
-                </p>
-                <p>
-                    Show Instructions: <input type="checkbox" id="show_instructions" onchange="generateUri()"/>
-                </p>
-                <p>
-                    Enable Streamdeck Hotkeys: <input type="checkbox" id="streamdeck" onchange="generateUri()"/>
-                </p>
-                <p>
-                    Generated Uri: <input type="text" id="generated_uri" value="https://overlay.phantom-games.com?org=amazon&game=ultimate&instructions=off" disabled/>
-                </p>
-                <p>
-                    Overlay source code: <a href="https://github.com/Phantom5800/streamoverlay" target="_blank">https://github.com/Phantom5800/streamoverlay</a>
-                </p>
+                <div class="uri">
+                    <p>
+                        Org: <select id="org_select" onchange="generateUri()">
+                            <option>amazon</option>
+                            <option>galint</option>
+                            <option>microsoft</option>
+                            <option>mvd</option>
+                        </select>
+                        Game: <select id="game_select" onchange="generateCharacterLists()">
+                            <option>ultimate</option>
+                            <option>melee</option>
+                        </select>
+                        Portrait: <select id="portrait_type" onchange="generateUri()">
+                            <option>Character Portrait</option>
+                            <option>Stock Icon</option>
+                        </select>
+                    </p>
+                    <p>
+                        Tournament Name: <input type="text" id="tournament_name_entry" onchange="generateUri()"/>
+                    </p>
+                    <p>
+                        Default Player Names: <input type="text" id="p1_name_entry" value="P1" onchange="generateUri()"/> <input type="text" id="p2_name_entry" value="P2" onchange="generateUri()"/>
+                    </p>
+                    <p>
+                        Default Characters:<br><select id="p1_char_entry" onchange="generateUri()"></select> <select id="p2_char_entry" onchange="generateUri()"></select>
+                    </p>
+                    <p>
+                        Default Round: <input type="text" id="round_name" onchange="generateUri()"/>
+                    </p>
+                    <!--
+                        Webcam configurations are very dependent on specific orgs CSS setting them appropriately.
+                    -->
+                    <p>
+                        Webcam Type: <select id="webcam_type" onchange="generateUri()">
+                            <option>None</option>
+                            <option>1 Cam</option>
+                            <option>2 Cams</option>
+                        </select>
+                    </p>
+                    <!-- 
+                        Remote control password should be fine as a user defined string for now.
+                        If there's ever enough users where overlap is feasible, then it can be changed
+                        to a generated UUID.
+                    -->
+                    <p>
+                        Remote Control Password: <input type="text" id="remote_pw" onchange="generateUri()"/>
+                    </p>
+                    <!--
+                        Show instructions as an option is kind of weird, it's doubtful anyone would ever actually set this.
+                    -->
+                    <p>
+                        Show Instructions: <input type="checkbox" id="show_instructions" onchange="generateUri()"/>
+                    </p>
+                    <!--
+                        This is only defaulted off for the sake of the URI builder itself. We don't want things
+                        like tournament name entry in the URI builder activating hot keys.
+                    -->
+                    <p>
+                        Enable Streamdeck Hotkeys: <input type="checkbox" id="streamdeck" onchange="generateUri()"/>
+                    </p>
+                    <p>
+                        Generated Uri: <input type="text" id="generated_uri" value="https://overlay.phantom-games.com?org=amazon&game=ultimate&instructions=off" disabled/>
+                    </p>
+                    <p>
+                        Overlay source code: <a href="https://github.com/Phantom5800/streamoverlay" target="_blank">https://github.com/Phantom5800/streamoverlay</a>
+                    </p>
+                </div>
             </ul>
         </div>
 
+        <!--
+            These div's are customized by CSS to define the overlay layout and style.
+        -->
         <div id="tournament_name"></div>
         <div id="scores">
             <div id="p1_score" class="score">15</div>

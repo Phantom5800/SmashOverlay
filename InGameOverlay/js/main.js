@@ -55,6 +55,7 @@ var remap = {
 var streamdeck_hotkeys = false;
 var use_stock_icons = false;
 var urlParams = {};
+var remote_control_password = "";
 var characterMode = "ultimate";
 // Page Load
 var cssCount = document.styleSheets.length;
@@ -69,6 +70,12 @@ function loadStylesheet(sheet) {
   var link_html = "<link rel=\"stylesheet\" " + "href=\"" + sheet + "\">"
   var link = $.parseHTML(link_html);
   $('head').append(link);
+}
+
+function loadJS(js_file) {
+  var script = document.createElement("script");
+  script.src = js_file;
+  document.head.appendChild(script);
 }
 
 function getUrlParamCount() {
@@ -155,10 +162,19 @@ function fillDataFromVars() {
     streamdeck_hotkeys = true;
   }
 
+  remote_control_password = getUrlParam("remote", "");
+  if (remote_control_password !== "") {
+    loadJS("js/remote.js");
+  }
+
   loadStylesheet(orgConfig[company]["Stylesheet"]);
 }
 
 // page events
+function setScore(element, value) {
+  element.html(value);
+}
+
 function incrementScore(element) {
   var value = parseInt(element.html());
   element.html((value + 1));
@@ -169,10 +185,14 @@ function decrementScore(element) {
   element.html((value - 1));
 }
 
+function setName(element, name) {
+  element.html(name);
+}
+
 function changeName(element) {
   var result = prompt("Enter a new name for " + element.attr('id').substring(0, 2));
   if (result !== null && result !== "") {
-    element.html(result);
+    setName(element, result);
   }
 }
 
@@ -185,6 +205,10 @@ function convertUserInputToCharacter(input) {
   }
 
   return result;
+}
+
+function getCharacter(element) {
+  return getComputedStyle(element).backgroundImage.split('/').slice(-1)[0].split('.')[0];
 }
 
 function setCharacter(element, characterName) {
@@ -203,10 +227,14 @@ function changeCharacter(element) {
   }
 }
 
+function setRound(round) {
+  $('#round').html(round);
+}
+
 function changeRound() {
   var result = prompt("Enter round title");
   if (result !== null && result !== "") {
-    $('#round').html(result);
+    setRound(result);
   }
 }
 
@@ -252,6 +280,7 @@ function generateUri() {
   var round = document.getElementById("round_name");
   var generated_uri = document.getElementById("generated_uri");
   var portrait_type = document.getElementById("portrait_type");
+  var remote_pw = document.getElementById("remote_pw");
 
   // get base uri
   var baseUri = getBaseUri();
@@ -275,6 +304,9 @@ function generateUri() {
   }
   if (portrait_type.value === "Stock Icon") {
     generated_string += "&icon=stock";
+  }
+  if (remote_pw.value.length > 0) {
+    generated_string += "&remote=" + encodeURIComponent(remote_pw.value);
   }
 
   // default fields
