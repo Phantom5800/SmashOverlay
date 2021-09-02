@@ -1,32 +1,16 @@
-var bc = new BroadcastChannel("overlay_channel=");
+var bc = new BroadcastChannel("overlay_channel");
 
 bc.onmessage = onMessage;
 function onMessage(ev) {
     if (ev.data.includes("[DATA-UPDATE]")) {
         data = ev.data.split('\n');
         console.log(data);
-    } else if (ev.data === "[CONNECTED]") {
-        $("#connection_result").html("&#128994;");
     }
 }
 
 $(document).ready(function() {
 
-    // update BroadcastChannel
-    $("#connection_pw").change(function() {
-        $("#connection_result").html("&#128308;");
-        bc.close();
-        bc = new BroadcastChannel("overlay_channel=" + $("#connection_pw").val());
-        bc.onmessage = onMessage;
-        console.log(bc.name);
-    });
-
 });
-
-function verifyConnection() {
-    $("#connection_result").html("&#128308;");
-    bc.postMessage("[VERIFY_CONNECTION]");
-}
 
 function requestUpdate() {
     bc.postMessage("[REFRESH]");

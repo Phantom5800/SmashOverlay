@@ -1,10 +1,8 @@
-const bc = new BroadcastChannel("overlay_channel=" + remote_control_password);
+const bc = new BroadcastChannel("overlay_channel");
 
 bc.onmessage = function(ev) {
     if (ev.data === "[REFRESH]") {
         bc.postMessage(buildUpdateMessage());
-    } else if (ev.data === "[VERIFY_CONNECTION]") {
-        bc.postMessage("[CONNECTED]");
     } else if (ev.data.includes("[UPDATE_OVERLAY]")) {
         var data = ev.data.split('\n');
         for (i in data) {

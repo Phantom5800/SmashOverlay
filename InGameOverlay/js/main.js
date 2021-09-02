@@ -55,7 +55,6 @@ var remap = {
 var streamdeck_hotkeys = false;
 var use_stock_icons = false;
 var urlParams = {};
-var remote_control_password = "";
 var characterMode = "ultimate";
 // Page Load
 var cssCount = document.styleSheets.length;
@@ -160,11 +159,6 @@ function fillDataFromVars() {
 
   if (getUrlParam("streamdeck", "false") === "true") {
     streamdeck_hotkeys = true;
-  }
-
-  remote_control_password = getUrlParam("remote", "");
-  if (remote_control_password !== "") {
-    loadJS("js/remote.js");
   }
 
   loadStylesheet(orgConfig[company]["Stylesheet"]);
@@ -280,7 +274,6 @@ function generateUri() {
   var round = document.getElementById("round_name");
   var generated_uri = document.getElementById("generated_uri");
   var portrait_type = document.getElementById("portrait_type");
-  var remote_pw = document.getElementById("remote_pw");
 
   // get base uri
   var baseUri = getBaseUri();
@@ -304,9 +297,6 @@ function generateUri() {
   }
   if (portrait_type.value === "Stock Icon") {
     generated_string += "&icon=stock";
-  }
-  if (remote_pw.value.length > 0) {
-    generated_string += "&remote=" + encodeURIComponent(remote_pw.value);
   }
 
   // default fields
