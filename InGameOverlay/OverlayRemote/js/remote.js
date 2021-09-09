@@ -1,10 +1,12 @@
-var bc = new BroadcastChannel("overlay_channel");
+const bc = new BroadcastChannel("overlay_channel");
 
 bc.onmessage = onMessage;
 function onMessage(ev) {
     if (ev.data.includes("[DATA-UPDATE]")) {
-        data = ev.data.split('\n');
-        console.log(data);
+        var data = ev.data.split('\n');
+        for (i in data) {
+            parseUpdate(data[i]);
+        }
     }
 }
 
@@ -29,6 +31,11 @@ function publishUpdate() {
     bc.postMessage(msg);
 }
 
-function parseUpdate() {
-
+function parseUpdate(msgData) {
+    var data = msgData.split('=');
+    if (data[0] === "mode") {
+        // set game mode appropriately
+    } else if (data[0] === "tournament") {
+        $("#tournament_name").html(data[1]);
+    }
 }

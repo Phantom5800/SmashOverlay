@@ -33,7 +33,7 @@ function parseMsg(msg) {
 
 function buildUpdateMessage() {
     var message = "[DATA-UPDATE]";
-    message += "\ntournament=" + getUrlParam("tournament", "");
+    message += "\ntournament=" + $("#tournament_name").html();
     message += "\nmode=" + getUrlParam("mode", "ultimate");
     message += "\np1name=" + $("#p1_name").html();
     message += "\np2name=" + $("#p2_name").html();

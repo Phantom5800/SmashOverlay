@@ -5,6 +5,22 @@
     <script type="text/javascript" src="js/remote.js"></script>
 </head>
 <body>
+    <h1 id="tournament_name">Tournament Overlay Dashboard</h1>
+    <div>
+        P1: <input type="text" id="p1name"/>
+        P2: <input type="text" id="p2name"/>
+    </div>
+    <div>
+        P1 Character: <select id="p1char"></select>
+        P2 Character: <select id="p2char"></select>
+    </div>
+    <div>
+        P1 Score: <input type="number" id="p1score" value="0" min="0" step="1" pattern="\d*"/>
+        P2 Score: <input type="number" id="p2score" value="0" min="0" step="1" pattern="\d*"/>
+    </div>
+    <div>
+        Round: <input type="text" id="round"/>
+    </div>
     <div>
         <button onclick="publishUpdate()">Publish Changes</button>
         <button onclick="requestUpdate()">Refresh</button>
