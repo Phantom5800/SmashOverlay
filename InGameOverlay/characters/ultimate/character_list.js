@@ -76,6 +76,7 @@ characterNameMap.set('ultimate', [
   'simon',
   'snake',
   'sonic',
+  'sora',
   'steve',
   'stock',
   'terry',
