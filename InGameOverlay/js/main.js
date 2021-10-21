@@ -95,13 +95,15 @@ function getUrlParam(parameter, defaultValue) {
 function validateOrgParam(org) {
   org = org.toLowerCase();
   if (org in orgConfig) return org;
-  return "microsoft";
+  return $("#org_select").val();
 }
 
 function fillDataFromVars() {
   // initialize company info
-  var company = validateOrgParam(getUrlParam("org", "MS"));
+  var company = validateOrgParam(getUrlParam("org", $("#org_select").val()));
   $('#logo').attr('src', orgConfig[company]["Logo"]);
+  $("#org_select").val(company);
+  localStorage.setItem("org", company);
   
   $('#p1_score').html(getUrlParam("p1score", "0"));
   $('#p2_score').html(getUrlParam("p2score", "0"));
@@ -109,16 +111,26 @@ function fillDataFromVars() {
   $('#p2_name').html(decodeURIComponent(getUrlParam("p2name", "P2")));
   $('#round').html(decodeURIComponent(getUrlParam("round", "Friendlies")));
   
-  var tournament_name = getUrlParam("tournament", "");
+  var tournament_name = getUrlParam("tournament", $("#tournament_name_entry").val());
   if (tournament_name !== "") {
-    setTournamentName(decodeURIComponent(tournament_name));
+    var decoded_tournament_name = decodeURIComponent(tournament_name);
+    setTournamentName(decoded_tournament_name);
+    $("#tournament_name_entry").val(decoded_tournament_name);
+    localStorage.setItem("tournament_name", decoded_tournament_name);
   }
 
-  if (getUrlParam("icon", "") === "stock") {
+  var currentIconType = ($("#portrait_type").prop('selectedIndex') == 0) ? "" : "stock";
+  if (getUrlParam("icon", currentIconType) === "stock") {
     use_stock_icons = true;
+    $("#portrait_type").prop('selectedIndex', 1);
+    localStorage.setItem("portrait_type", 1);
+  } else {
+    localStorage.setItem("portrait_type", 0);
   }
 
-  characterMode = getUrlParam("mode", "ultimate");
+  characterMode = getUrlParam("mode", $("#game_select").val());
+  $("#game_select").val(characterMode); // set drop down values appropriately
+  localStorage.setItem("game", characterMode);
   var character1 = getUrlParam("p1char", "");
   if (character1 !== "") {
     setCharacter($('#p1_name'), character1);
@@ -128,12 +140,16 @@ function fillDataFromVars() {
     setCharacter($('#p2_name'), character2);
   }
 
-  var webcamType = getUrlParam("webcam", 0);
+  var webcamType = getUrlParam("webcam", $("#webcam_type").prop('selectedIndex'));
   if (webcamType == 1) {
     $('#webcam-1-1').css('visibility', 'visible');
+    $("#webcam_type").prop('selectedIndex', 1);
+    localStorage.setItem("webcam_type", 1);
   } else if (webcamType == 2) {
     $('#webcam-1-1').css('visibility', 'visible');
     $('#webcam-2-2').css('visibility', 'visible');
+    $("#webcam_type").prop('selectedIndex', 2);
+    localStorage.setItem("webcam_type", 2);
   }
   
   if (getUrlParam("instructions", "on") === "off") {
@@ -317,9 +333,26 @@ function resetScores() {
 }
 
 $(document).ready(function() {
+  // grab localstorage data first
+  function getLocalStorageValue(key, defaultValue) {
+    var val = localStorage.getItem(key);
+    if (val) {
+      return val;
+    }
+    return defaultValue;
+  }
+
+  $("#org_select").val(getLocalStorageValue("org", "amazon"));
+  $("#game_select").val(getLocalStorageValue("game", "ultimate"));
+  $("#portrait_type").prop('selectedIndex', getLocalStorageValue("portrait_type", 0));
+  $("#tournament_name_entry").val(getLocalStorageValue("tournament_name", ""));
+  $("#webcam_type").prop('selectedIndex', getLocalStorageValue("webcam_type", 0));
+
+  // get url data
   getUrlVars();
   fillDataFromVars();
 
+  // setup callbacks
   $('#logo').click(function() {
     resetScores();
   });

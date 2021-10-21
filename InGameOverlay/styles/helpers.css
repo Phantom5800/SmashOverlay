@@ -33,3 +33,17 @@ button#instructions {
   border-radius: 35%;
   margin-right: 2.5%;
 }
+
+div.uri {
+  border: none;
+  -webkit-text-stroke-width: 0em;
+  font-size: 1em;
+  overflow-y: scroll;
+  height: 35em;
+  width: 88%;
+
+  /* use basic fonts for this whole menu */
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  -webkit-text-fill-color: black;
+}
